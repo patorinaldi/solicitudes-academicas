@@ -1,0 +1,6 @@
+target/
+*.class
+solicitudes.csv
+.idea/
+.vscode/
+*.iml
