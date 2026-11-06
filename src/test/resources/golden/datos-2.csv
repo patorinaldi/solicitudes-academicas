@@ -1,0 +1,7 @@
+id;legajo;nombre;email;carrera;tipo;descripcion;fecha;estado;prioridad;responsable;urgente
+1;10001;Ana Torres;ana.torres@example.edu;Tecnicatura en Programacion;CONSTANCIA;Constancia de alumno regular para presentar en el trabajo;03/03/2026;RESUELTA;BAJA;Laura Gomez;false
+2;10002;Bruno Diaz;bruno.diaz@example.edu;Tecnicatura en Programacion;EXAMEN;Solicito mesa especial de Programacion II por superposicion de fechas;10/03/2026;EN_PROCESO;ALTA;Martin Paz;false
+3;10003;Carla Mendez;carla.mendez@example.edu;Analista de Sistemas;EQUIVALENCIA;Equivalencia de Matematica I aprobada en otra universidad;12/03/2026;RESUELTA;MEDIA;;false
+4;10004;Dario Sosa;dario.sosa@example.edu;Tecnicatura en Programacion;RECLAMO;La nota del parcial no figura en el sistema;15/03/2026;EN_PROCESO;ALTA;;true
+5;10001;Ana Torres;ana.torres@example.edu;Tecnicatura en Programacion;RECLAMO;Reclamo por una inscripcion a cursada que no quedo registrada en el sistema y necesito que se revise con urgencia porque el plazo de inscripcion vence esta semana y no puedo cursar la materia correlativa del segundo cuatrimestre sin esta inscripcion confirmada;18/03/2026;EN_PROCESO;ALTA;Diego Lopez;false
+6;10006;Federico Gil;federico.gil@example.edu;Analista de Sistemas;CONSTANCIA;Constancia de examen rendido;20/03/2026;PENDIENTE;BAJA;;false
