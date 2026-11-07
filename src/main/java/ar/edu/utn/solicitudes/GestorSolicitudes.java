@@ -33,22 +33,17 @@ public class GestorSolicitudes {
         TipoSolicitud tipo = TipoSolicitud.desde(datos.tipo()).orElseThrow();
         Estudiante estudiante = obtenerOCrearEstudiante(datos);
 
-        Solicitud solicitud = datos.urgente() ? new SolicitudUrgente() : new Solicitud();
+        String descripcion = datos.descripcion().trim();
+        Prioridad prioridad = calculadoraPrioridad.calcular(tipo, descripcion, datos.urgente());
         ultimoId++;
-        solicitud.id = ultimoId;
-        solicitud.legajo = estudiante.legajo;
-        solicitud.tipo = tipo;
-        solicitud.descripcion = datos.descripcion().trim();
-        solicitud.fecha = datos.fecha().trim();
-        solicitud.estado = EstadoSolicitud.PENDIENTE;
-        solicitud.responsable = "";
-        solicitud.prioridad = calculadoraPrioridad.calcular(tipo, solicitud.descripcion, datos.urgente());
+        Solicitud solicitud = Solicitud.nueva(ultimoId, estudiante.legajo(), tipo, descripcion, datos.fecha().trim(),
+                prioridad, datos.urgente());
 
         lista.add(solicitud);
         guardar();
-        System.out.println("Solicitud #" + solicitud.id + " registrada. Prioridad " + solicitud.prioridad
+        System.out.println("Solicitud #" + solicitud.id() + " registrada. Prioridad " + solicitud.prioridad()
                 + ". Area: " + tipo.area());
-        return solicitud.id;
+        return solicitud.id();
     }
 
     private void validar(NuevaSolicitud datos) {
@@ -80,19 +75,16 @@ public class GestorSolicitudes {
     private Estudiante obtenerOCrearEstudiante(NuevaSolicitud datos) {
         Estudiante estudiante = estudiantes.get(datos.legajo().trim());
         if (estudiante == null) {
-            estudiante = new Estudiante();
-            estudiante.legajo = datos.legajo().trim();
-            estudiante.nombre = datos.nombre().trim();
-            estudiante.email = datos.email().trim();
-            estudiante.carrera = datos.carrera() == null ? "" : datos.carrera().trim();
-            estudiantes.put(estudiante.legajo, estudiante);
+            estudiante = new Estudiante(datos.legajo().trim(), datos.nombre().trim(), datos.email().trim(),
+                    datos.carrera() == null ? "" : datos.carrera().trim());
+            estudiantes.put(estudiante.legajo(), estudiante);
         }
         return estudiante;
     }
 
     private Solicitud buscarPorId(int id) {
         for (Solicitud solicitud : lista) {
-            if (solicitud.id == id) {
+            if (solicitud.id() == id) {
                 return solicitud;
             }
         }
@@ -104,36 +96,20 @@ public class GestorSolicitudes {
         Solicitud solicitud = buscarPorId(id);
         EstadoSolicitud nuevo = EstadoSolicitud.desde(nuevoEstado)
                 .orElseThrow(() -> new TransicionInvalidaException("estado desconocido: " + nuevoEstado));
-        if (!solicitud.estado.puedePasarA(nuevo)) {
-            throw new TransicionInvalidaException("no se puede pasar de " + solicitud.estado + " a " + nuevo);
-        }
-        if (solicitud instanceof SolicitudUrgente && nuevo == EstadoSolicitud.RECHAZADA) {
-            throw new TransicionInvalidaException("una solicitud urgente no se puede rechazar");
-        }
         solicitud.cambiarEstado(nuevo);
         guardar();
     }
 
     public void asignarResponsable(int id, String nombreResponsable) {
         Solicitud solicitud = buscarPorId(id);
-        Responsable responsable = buscarResponsable(nombreResponsable);
-        if (responsable.area != solicitud.tipo.area()) {
-            throw new AreaIncorrectaException();
-        }
-        if (solicitud.estado.estaCerrado()) {
-            throw new SolicitudCerradaException();
-        }
-        solicitud.responsable = responsable.nombre;
-        if (solicitud.estado == EstadoSolicitud.PENDIENTE) {
-            solicitud.estado = EstadoSolicitud.EN_PROCESO;
-        }
+        solicitud.asignar(buscarResponsable(nombreResponsable));
         guardar();
     }
 
     private Responsable buscarResponsable(String nombre) {
         String buscado = nombre == null ? "" : nombre.trim();
         for (Responsable responsable : responsables) {
-            if (responsable.nombre.equalsIgnoreCase(buscado)) {
+            if (responsable.nombre().equalsIgnoreCase(buscado)) {
                 return responsable;
             }
         }
@@ -167,10 +143,10 @@ public class GestorSolicitudes {
             FileWriter fw = new FileWriter(archivo);
             fw.write("id;legajo;nombre;email;carrera;tipo;descripcion;fecha;estado;prioridad;responsable;urgente\n");
             for (Solicitud s : lista) {
-                Estudiante e = estudiantes.get(s.legajo);
-                fw.write(s.id + ";" + s.legajo + ";" + e.nombre + ";" + e.email + ";" + e.carrera + ";" + s.tipo
-                        + ";" + s.descripcion + ";" + s.fecha + ";" + s.estado + ";" + s.prioridad + ";"
-                        + s.responsable + ";" + (s instanceof SolicitudUrgente) + "\n");
+                Estudiante e = estudiantes.get(s.legajo());
+                fw.write(s.id() + ";" + s.legajo() + ";" + e.nombre() + ";" + e.email() + ";" + e.carrera() + ";"
+                        + s.tipo() + ";" + s.descripcion() + ";" + s.fecha() + ";" + s.estado() + ";"
+                        + s.prioridad() + ";" + s.responsable().orElse("") + ";" + s.esUrgente() + "\n");
             }
             fw.close();
         } catch (Exception ex) {
@@ -187,31 +163,12 @@ public class GestorSolicitudes {
             String linea = br.readLine();
             while ((linea = br.readLine()) != null) {
                 String[] p = linea.split(";", -1);
-                Solicitud s;
-                if (p[11].equals("true")) {
-                    s = new SolicitudUrgente();
-                } else {
-                    s = new Solicitud();
-                }
-                s.id = Integer.parseInt(p[0]);
-                s.legajo = p[1];
-                s.tipo = TipoSolicitud.valueOf(p[5]);
-                s.descripcion = p[6];
-                s.fecha = p[7];
-                s.estado = EstadoSolicitud.valueOf(p[8]);
-                s.prioridad = Prioridad.valueOf(p[9]);
-                s.responsable = p[10];
-                if (!estudiantes.containsKey(p[1])) {
-                    Estudiante e = new Estudiante();
-                    e.legajo = p[1];
-                    e.nombre = p[2];
-                    e.email = p[3];
-                    e.carrera = p[4];
-                    estudiantes.put(p[1], e);
-                }
+                Solicitud s = new Solicitud(Integer.parseInt(p[0]), p[1], TipoSolicitud.valueOf(p[5]), p[6], p[7],
+                        Prioridad.valueOf(p[9]), p[11].equals("true"), EstadoSolicitud.valueOf(p[8]), p[10]);
+                estudiantes.putIfAbsent(p[1], new Estudiante(p[1], p[2], p[3], p[4]));
                 lista.add(s);
-                if (s.id > ultimoId) {
-                    ultimoId = s.id;
+                if (s.id() > ultimoId) {
+                    ultimoId = s.id();
                 }
             }
             br.close();

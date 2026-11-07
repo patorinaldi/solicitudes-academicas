@@ -20,12 +20,12 @@ public record Reporte(int total, Map<EstadoSolicitud, Integer> porEstado, Map<Pr
         int urgentes = 0;
         int abiertasSinResponsable = 0;
         for (Solicitud solicitud : solicitudes) {
-            porEstado.merge(solicitud.estado, 1, Integer::sum);
-            porPrioridad.merge(solicitud.prioridad, 1, Integer::sum);
-            if (solicitud instanceof SolicitudUrgente) {
+            porEstado.merge(solicitud.estado(), 1, Integer::sum);
+            porPrioridad.merge(solicitud.prioridad(), 1, Integer::sum);
+            if (solicitud.esUrgente()) {
                 urgentes++;
             }
-            if (solicitud.responsable.isEmpty() && !solicitud.estado.estaCerrado()) {
+            if (solicitud.estaAbiertaSinResponsable()) {
                 abiertasSinResponsable++;
             }
         }

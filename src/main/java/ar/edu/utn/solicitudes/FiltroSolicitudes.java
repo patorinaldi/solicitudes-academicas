@@ -4,10 +4,10 @@ package ar.edu.utn.solicitudes;
 public record FiltroSolicitudes(String tipo, String estado, String prioridad, String legajo) {
 
     public boolean admite(Solicitud solicitud) {
-        return coincide(tipo, solicitud.tipo.name(), true)
-                && coincide(estado, solicitud.estado.name(), true)
-                && coincide(prioridad, solicitud.prioridad.name(), true)
-                && coincide(legajo, solicitud.legajo, false);
+        return coincide(tipo, solicitud.tipo().name(), true)
+                && coincide(estado, solicitud.estado().name(), true)
+                && coincide(prioridad, solicitud.prioridad().name(), true)
+                && coincide(legajo, solicitud.legajo(), false);
     }
 
     private static boolean coincide(String criterio, String valor, boolean ignorarMayusculas) {

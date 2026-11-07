@@ -121,10 +121,10 @@ public class Main {
             System.out.println(mensajeSiVacia);
         }
         for (Solicitud solicitud : solicitudes) {
-            Estudiante estudiante = gestor.estudiante(solicitud.legajo);
-            System.out.println("#" + solicitud.id + " [" + solicitud.prioridad + "] " + solicitud.tipo + " - "
-                    + solicitud.estado + " - " + solicitud.legajo + " " + estudiante.nombre + " - "
-                    + (solicitud.responsable.equals("") ? "Sin asignar" : solicitud.responsable));
+            Estudiante estudiante = gestor.estudiante(solicitud.legajo());
+            System.out.println("#" + solicitud.id() + " [" + solicitud.prioridad() + "] " + solicitud.tipo() + " - "
+                    + solicitud.estado() + " - " + solicitud.legajo() + " " + estudiante.nombre() + " - "
+                    + solicitud.responsable().orElse("Sin asignar"));
         }
     }
 }
