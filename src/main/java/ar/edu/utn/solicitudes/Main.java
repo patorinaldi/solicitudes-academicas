@@ -26,7 +26,7 @@ public class Main {
                 case 2 -> cambiarEstado(entrada, gestor);
                 case 3 -> asignarResponsable(entrada, gestor);
                 case 4 -> buscar(entrada, gestor);
-                case 5 -> System.out.print(gestor.reporte());
+                case 5 -> System.out.print(gestor.reporte().comoTexto());
                 case 6 -> listar(gestor, gestor.todas(), "No hay solicitudes registradas");
                 case 0 -> System.out.println("Hasta luego");
                 default -> System.out.println("Opcion invalida");
