@@ -61,7 +61,8 @@ public class Main {
         String descripcion = preguntar(entrada, "Descripcion: ");
         String fecha = preguntar(entrada, "Fecha (dd/mm/aaaa): ");
         boolean urgente = preguntar(entrada, "Urgente (s/n): ").trim().equalsIgnoreCase("s");
-        int resultado = gestor.registrar(legajo, nombre, email, carrera, tipo, descripcion, fecha, urgente);
+        int resultado = gestor.registrar(
+                new NuevaSolicitud(legajo, nombre, email, carrera, tipo, descripcion, fecha, urgente));
         if (resultado == -1) {
             System.out.println("Error: el legajo debe tener 5 digitos");
         } else if (resultado == -2) {
@@ -126,7 +127,8 @@ public class Main {
         String estado = preguntar(entrada, "Estado (vacio = todos): ");
         String prioridad = preguntar(entrada, "Prioridad (vacio = todas): ");
         String legajo = preguntar(entrada, "Legajo (vacio = todos): ");
-        listar(gestor, gestor.buscar(tipo, estado, prioridad, legajo), "No hay solicitudes que coincidan");
+        FiltroSolicitudes filtro = new FiltroSolicitudes(tipo, estado, prioridad, legajo);
+        listar(gestor, gestor.buscar(filtro), "No hay solicitudes que coincidan");
     }
 
     private static void listar(GestorSolicitudes gestor, List<Solicitud> solicitudes, String mensajeSiVacia) {

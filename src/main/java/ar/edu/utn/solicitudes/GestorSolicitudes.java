@@ -29,25 +29,24 @@ public class GestorSolicitudes {
 
     // Registra una solicitud. Devuelve el id, o un codigo negativo si hay un error:
     // -1 legajo, -2 nombre, -3 email, -4 tipo, -5 descripcion, -6 fecha
-    public int registrar(String legajo, String nombre, String email, String carrera, String tipo,
-                         String descripcion, String fecha, boolean urgente) {
-        int error = validar(legajo, nombre, email, tipo, descripcion, fecha);
+    public int registrar(NuevaSolicitud datos) {
+        int error = validar(datos);
         if (error != 0) {
             return error;
         }
-        String tipoNormalizado = tipo.trim().toUpperCase();
-        Estudiante estudiante = obtenerOCrearEstudiante(legajo, nombre, email, carrera);
+        String tipoNormalizado = datos.tipo().trim().toUpperCase();
+        Estudiante estudiante = obtenerOCrearEstudiante(datos);
 
-        Solicitud solicitud = urgente ? new SolicitudUrgente() : new Solicitud();
+        Solicitud solicitud = datos.urgente() ? new SolicitudUrgente() : new Solicitud();
         ultimoId++;
         solicitud.id = ultimoId;
         solicitud.legajo = estudiante.legajo;
         solicitud.tipo = tipoNormalizado;
-        solicitud.descripcion = descripcion.trim();
-        solicitud.fecha = fecha.trim();
+        solicitud.descripcion = datos.descripcion().trim();
+        solicitud.fecha = datos.fecha().trim();
         solicitud.estado = "PENDIENTE";
         solicitud.responsable = "";
-        solicitud.prioridad = calcularPrioridad(tipoNormalizado, solicitud.descripcion, urgente);
+        solicitud.prioridad = calcularPrioridad(tipoNormalizado, solicitud.descripcion, datos.urgente());
 
         lista.add(solicitud);
         guardar();
@@ -56,18 +55,21 @@ public class GestorSolicitudes {
         return solicitud.id;
     }
 
-    private int validar(String legajo, String nombre, String email, String tipo, String descripcion,
-                        String fecha) {
+    private int validar(NuevaSolicitud datos) {
+        String legajo = datos.legajo();
+        String email = datos.email();
+        String descripcion = datos.descripcion();
+        String fecha = datos.fecha();
         if (legajo == null || !legajo.trim().matches("\\d{5}")) {
             return -1;
         }
-        if (nombre == null || nombre.trim().isEmpty()) {
+        if (datos.nombre() == null || datos.nombre().trim().isEmpty()) {
             return -2;
         }
         if (email == null || email.indexOf("@") <= 0 || email.indexOf(".", email.indexOf("@")) < 0) {
             return -3;
         }
-        String tipoNormalizado = tipo == null ? "" : tipo.trim().toUpperCase();
+        String tipoNormalizado = datos.tipo() == null ? "" : datos.tipo().trim().toUpperCase();
         if (!tipoNormalizado.equals("CONSTANCIA") && !tipoNormalizado.equals("EXAMEN")
                 && !tipoNormalizado.equals("EQUIVALENCIA") && !tipoNormalizado.equals("RECLAMO")) {
             return -4;
@@ -82,14 +84,14 @@ public class GestorSolicitudes {
     }
 
     // Si el estudiante ya existe se usa el que esta guardado
-    private Estudiante obtenerOCrearEstudiante(String legajo, String nombre, String email, String carrera) {
-        Estudiante estudiante = estudiantes.get(legajo.trim());
+    private Estudiante obtenerOCrearEstudiante(NuevaSolicitud datos) {
+        Estudiante estudiante = estudiantes.get(datos.legajo().trim());
         if (estudiante == null) {
             estudiante = new Estudiante();
-            estudiante.legajo = legajo.trim();
-            estudiante.nombre = nombre.trim();
-            estudiante.email = email.trim();
-            estudiante.carrera = carrera == null ? "" : carrera.trim();
+            estudiante.legajo = datos.legajo().trim();
+            estudiante.nombre = datos.nombre().trim();
+            estudiante.email = datos.email().trim();
+            estudiante.carrera = datos.carrera() == null ? "" : datos.carrera().trim();
             estudiantes.put(estudiante.legajo, estudiante);
         }
         return estudiante;
@@ -194,12 +196,12 @@ public class GestorSolicitudes {
         return null;
     }
 
-    // Filtros vacios = sin filtro
-    public ArrayList<Solicitud> buscar(String tipo, String estado, String prioridad, String legajo) {
+    public ArrayList<Solicitud> buscar(FiltroSolicitudes filtro) {
         ArrayList<Solicitud> resultado = new ArrayList<>();
         for (Solicitud solicitud : lista) {
-            if (coincide(tipo, solicitud.tipo, true) && coincide(estado, solicitud.estado, true)
-                    && coincide(prioridad, solicitud.prioridad, true) && coincide(legajo, solicitud.legajo, false)) {
+            if (coincide(filtro.tipo(), solicitud.tipo, true) && coincide(filtro.estado(), solicitud.estado, true)
+                    && coincide(filtro.prioridad(), solicitud.prioridad, true)
+                    && coincide(filtro.legajo(), solicitud.legajo, false)) {
                 resultado.add(solicitud);
             }
         }
