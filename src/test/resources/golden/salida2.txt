@@ -1,0 +1,62 @@
+
+=== SOLICITUDES ACADEMICAS ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte
+6. Listar todas
+0. Salir
+Opcion: #1 [BAJA] CONSTANCIA - RESUELTA - 10001 Ana Torres - Laura Gomez
+#2 [ALTA] EXAMEN - EN_PROCESO - 10002 Bruno Diaz - Martin Paz
+#3 [MEDIA] EQUIVALENCIA - RESUELTA - 10003 Carla Mendez - Sin asignar
+#4 [ALTA] RECLAMO - EN_PROCESO - 10004 Dario Sosa - Sin asignar
+#5 [ALTA] RECLAMO - PENDIENTE - 10001 Ana Torres - Sin asignar
+
+=== SOLICITUDES ACADEMICAS ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte
+6. Listar todas
+0. Salir
+Opcion: Legajo: Nombre: Email: Carrera: Tipo (CONSTANCIA, EXAMEN, EQUIVALENCIA, RECLAMO): Descripcion: Fecha (dd/mm/aaaa): Urgente (s/n): Solicitud #6 registrada. Prioridad BAJA. Area: ALUMNOS
+
+=== SOLICITUDES ACADEMICAS ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte
+6. Listar todas
+0. Salir
+Opcion: Id de la solicitud: Responsable: Responsable asignado
+
+=== SOLICITUDES ACADEMICAS ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte
+6. Listar todas
+0. Salir
+Opcion: === REPORTE ===
+Total: 6
+PENDIENTE: 1
+EN_PROCESO: 3
+RESUELTA: 2
+RECHAZADA: 0
+Prioridad ALTA: 3 | MEDIA: 1 | BAJA: 2
+Urgentes: 1
+Abiertas sin responsable: 2
+
+=== SOLICITUDES ACADEMICAS ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte
+6. Listar todas
+0. Salir
+Opcion: Hasta luego

@@ -1,0 +1,15 @@
+6
+1
+10006
+Federico Gil
+federico.gil@example.edu
+Analista de Sistemas
+CONSTANCIA
+Constancia de examen rendido
+20/03/2026
+n
+3
+5
+diego lopez
+5
+0

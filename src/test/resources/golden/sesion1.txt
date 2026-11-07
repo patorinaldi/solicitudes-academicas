@@ -1,0 +1,188 @@
+6
+1
+10001
+Ana Torres
+ana.torres@example.edu
+Tecnicatura en Programacion
+constancia
+Constancia de alumno regular para presentar en el trabajo
+03/03/2026
+n
+1
+10002
+Bruno Diaz
+bruno.diaz@example.edu
+Tecnicatura en Programacion
+EXAMEN
+Solicito mesa especial de Programacion II por superposicion de fechas
+10/03/2026
+n
+1
+10003
+Carla Mendez
+carla.mendez@example.edu
+Analista de Sistemas
+equivalencia
+Equivalencia de Matematica I aprobada en otra universidad
+12/03/2026
+n
+1
+10004
+Dario Sosa
+dario.sosa@example.edu
+Tecnicatura en Programacion
+RECLAMO
+La nota del parcial no figura en el sistema
+15/03/2026
+s
+1
+10001
+Otro Nombre
+otro@example.edu
+Otra carrera
+reclamo
+Reclamo por una inscripcion a cursada que no quedo registrada en el sistema y necesito que se revise con urgencia porque el plazo de inscripcion vence esta semana y no puedo cursar la materia correlativa del segundo cuatrimestre sin esta inscripcion confirmada
+18/03/2026
+n
+1
+1234
+Error Legajo
+x@example.edu
+TUP
+CONSTANCIA
+Texto
+01/04/2026
+n
+1
+10005
+
+e@example.edu
+TUP
+CONSTANCIA
+Texto
+01/04/2026
+n
+1
+10005
+Eva Ramos
+eva.example.edu
+TUP
+CONSTANCIA
+Texto
+01/04/2026
+n
+1
+10005
+Eva Ramos
+eva@example
+TUP
+CONSTANCIA
+Texto
+01/04/2026
+n
+1
+10005
+Eva Ramos
+eva@example.edu
+TUP
+CERTIFICADO
+Texto
+01/04/2026
+n
+1
+10005
+Eva Ramos
+eva@example.edu
+TUP
+CONSTANCIA
+   
+01/04/2026
+n
+1
+10005
+Eva Ramos
+eva@example.edu
+TUP
+CONSTANCIA
+Texto
+2026-04-01
+n
+3
+1
+Laura Gomez
+3
+2
+Laura Gomez
+3
+2
+Martin Paz
+3
+9
+Martin Paz
+3
+3
+Nadie
+2
+1
+RESUELTA
+2
+1
+RECHAZADA
+2
+3
+RESUELTA
+2
+3
+en_proceso
+2
+3
+RESUELTA
+3
+3
+Sofia Ruiz
+2
+4
+RECHAZADA
+2
+4
+EN_PROCESO
+2
+abc
+2
+99
+EN_PROCESO
+4
+
+
+
+
+4
+EXAMEN
+
+
+
+4
+
+EN_PROCESO
+
+
+4
+
+
+ALTA
+
+4
+
+
+
+10001
+4
+RECLAMO
+RESUELTA
+
+
+5
+6
+7
+x
+0
