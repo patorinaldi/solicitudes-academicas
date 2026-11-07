@@ -61,20 +61,10 @@ public class Main {
         String descripcion = preguntar(entrada, "Descripcion: ");
         String fecha = preguntar(entrada, "Fecha (dd/mm/aaaa): ");
         boolean urgente = preguntar(entrada, "Urgente (s/n): ").trim().equalsIgnoreCase("s");
-        int resultado = gestor.registrar(
-                new NuevaSolicitud(legajo, nombre, email, carrera, tipo, descripcion, fecha, urgente));
-        if (resultado == -1) {
-            System.out.println("Error: el legajo debe tener 5 digitos");
-        } else if (resultado == -2) {
-            System.out.println("Error: el nombre es obligatorio");
-        } else if (resultado == -3) {
-            System.out.println("Error: email invalido");
-        } else if (resultado == -4) {
-            System.out.println("Error: tipo de solicitud invalido");
-        } else if (resultado == -5) {
-            System.out.println("Error: la descripcion es obligatoria y no puede superar los 300 caracteres");
-        } else if (resultado == -6) {
-            System.out.println("Error: la fecha debe tener el formato dd/mm/aaaa");
+        try {
+            gestor.registrar(new NuevaSolicitud(legajo, nombre, email, carrera, tipo, descripcion, fecha, urgente));
+        } catch (DatosInvalidosException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -95,9 +85,10 @@ public class Main {
             return;
         }
         String estado = preguntar(entrada, "Nuevo estado (EN_PROCESO, RESUELTA, RECHAZADA): ");
-        if (gestor.cambiarEstado(id, estado)) {
+        try {
+            gestor.cambiarEstado(id, estado);
             System.out.println("Estado actualizado");
-        } else {
+        } catch (SolicitudException e) {
             System.out.println("No se pudo cambiar el estado");
         }
     }
@@ -108,17 +99,11 @@ public class Main {
             return;
         }
         String responsable = preguntar(entrada, "Responsable: ");
-        int resultado = gestor.asignarResponsable(id, responsable);
-        if (resultado == 0) {
+        try {
+            gestor.asignarResponsable(id, responsable);
             System.out.println("Responsable asignado");
-        } else if (resultado == 1) {
-            System.out.println("Error: no existe la solicitud " + id);
-        } else if (resultado == 2) {
-            System.out.println("Error: no existe el responsable");
-        } else if (resultado == 3) {
-            System.out.println("Error: el responsable no pertenece al area de la solicitud");
-        } else if (resultado == 4) {
-            System.out.println("Error: la solicitud esta cerrada");
+        } catch (SolicitudException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

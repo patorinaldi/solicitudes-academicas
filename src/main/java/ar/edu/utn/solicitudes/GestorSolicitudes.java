@@ -27,13 +27,9 @@ public class GestorSolicitudes {
         cargar();
     }
 
-    // Registra una solicitud. Devuelve el id, o un codigo negativo si hay un error:
-    // -1 legajo, -2 nombre, -3 email, -4 tipo, -5 descripcion, -6 fecha
+    /** Registra una solicitud y devuelve su id. Lanza DatosInvalidosException si un dato no es válido. */
     public int registrar(NuevaSolicitud datos) {
-        int error = validar(datos);
-        if (error != 0) {
-            return error;
-        }
+        validar(datos);
         TipoSolicitud tipo = TipoSolicitud.desde(datos.tipo()).orElseThrow();
         Estudiante estudiante = obtenerOCrearEstudiante(datos);
 
@@ -55,30 +51,29 @@ public class GestorSolicitudes {
         return solicitud.id;
     }
 
-    private int validar(NuevaSolicitud datos) {
+    private void validar(NuevaSolicitud datos) {
         String legajo = datos.legajo();
         String email = datos.email();
         String descripcion = datos.descripcion();
         String fecha = datos.fecha();
         if (legajo == null || !legajo.trim().matches("\\d{5}")) {
-            return -1;
+            throw new DatosInvalidosException("el legajo debe tener 5 digitos");
         }
         if (datos.nombre() == null || datos.nombre().trim().isEmpty()) {
-            return -2;
+            throw new DatosInvalidosException("el nombre es obligatorio");
         }
         if (email == null || email.indexOf("@") <= 0 || email.indexOf(".", email.indexOf("@")) < 0) {
-            return -3;
+            throw new DatosInvalidosException("email invalido");
         }
         if (TipoSolicitud.desde(datos.tipo()).isEmpty()) {
-            return -4;
+            throw new DatosInvalidosException("tipo de solicitud invalido");
         }
         if (descripcion == null || descripcion.trim().isEmpty() || descripcion.length() > LARGO_MAXIMO_DESCRIPCION) {
-            return -5;
+            throw new DatosInvalidosException("la descripcion es obligatoria y no puede superar los 300 caracteres");
         }
         if (fecha == null || !fecha.trim().matches("\\d{2}/\\d{2}/\\d{4}")) {
-            return -6;
+            throw new DatosInvalidosException("la fecha debe tener el formato dd/mm/aaaa");
         }
-        return 0;
     }
 
     // Si el estudiante ya existe se usa el que esta guardado
@@ -101,51 +96,38 @@ public class GestorSolicitudes {
                 return solicitud;
             }
         }
-        return null;
+        throw new SolicitudInexistenteException(id);
     }
 
 
-    // Cambia el estado. Devuelve false si no se pudo.
-    public boolean cambiarEstado(int id, String nuevoEstado) {
+    public void cambiarEstado(int id, String nuevoEstado) {
         Solicitud solicitud = buscarPorId(id);
-        if (solicitud == null) {
-            return false;
-        }
-        EstadoSolicitud nuevo = EstadoSolicitud.desde(nuevoEstado).orElse(null);
-        if (nuevo == null || !solicitud.estado.puedePasarA(nuevo)) {
-            return false;
+        EstadoSolicitud nuevo = EstadoSolicitud.desde(nuevoEstado)
+                .orElseThrow(() -> new TransicionInvalidaException("estado desconocido: " + nuevoEstado));
+        if (!solicitud.estado.puedePasarA(nuevo)) {
+            throw new TransicionInvalidaException("no se puede pasar de " + solicitud.estado + " a " + nuevo);
         }
         if (solicitud instanceof SolicitudUrgente && nuevo == EstadoSolicitud.RECHAZADA) {
-            return false;
+            throw new TransicionInvalidaException("una solicitud urgente no se puede rechazar");
         }
         solicitud.cambiarEstado(nuevo);
         guardar();
-        return true;
     }
 
-    // 0 ok, 1 no existe la solicitud, 2 no existe el responsable, 3 el area no corresponde,
-    // 4 la solicitud esta cerrada
-    public int asignarResponsable(int id, String nombreResponsable) {
+    public void asignarResponsable(int id, String nombreResponsable) {
         Solicitud solicitud = buscarPorId(id);
-        if (solicitud == null) {
-            return 1;
-        }
         Responsable responsable = buscarResponsable(nombreResponsable);
-        if (responsable == null) {
-            return 2;
-        }
         if (responsable.area != solicitud.tipo.area()) {
-            return 3;
+            throw new AreaIncorrectaException();
         }
         if (solicitud.estado.estaCerrado()) {
-            return 4;
+            throw new SolicitudCerradaException();
         }
         solicitud.responsable = responsable.nombre;
         if (solicitud.estado == EstadoSolicitud.PENDIENTE) {
             solicitud.estado = EstadoSolicitud.EN_PROCESO;
         }
         guardar();
-        return 0;
     }
 
     private Responsable buscarResponsable(String nombre) {
@@ -155,7 +137,7 @@ public class GestorSolicitudes {
                 return responsable;
             }
         }
-        return null;
+        throw new ResponsableInexistenteException();
     }
 
     public ArrayList<Solicitud> buscar(FiltroSolicitudes filtro) {
