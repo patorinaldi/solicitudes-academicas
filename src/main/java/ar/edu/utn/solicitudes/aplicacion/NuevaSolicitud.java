@@ -1,4 +1,4 @@
-package ar.edu.utn.solicitudes;
+package ar.edu.utn.solicitudes.aplicacion;
 
 /**
  * Datos que ingresa el usuario para registrar una solicitud, tal como llegan de la consola.
