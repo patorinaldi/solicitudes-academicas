@@ -1,0 +1,14 @@
+Reproducción de dos defectos de la versión inicial (tag estado-inicial).
+
+## D1: acepta fechas inexistentes
+Entrada: fecha 31/02/2026 -> la solicitud se registra:
+  Solicitud #1 registrada. Prioridad BAJA. Area: ALUMNOS
+
+## D2: un ';' en la descripción corrompe el archivo sin aviso
+Descripción: "Nota de Algebra; no figura en actas" -> línea guardada:
+  2;10008;Hugo Ruiz;hugo@example.edu;TUP;RECLAMO;Nota de Algebra; no figura en actas;05/04/2026;PENDIENTE;MEDIA;;false
+
+Al volver a abrir el sistema, los campos quedan corridos (prioridad = PENDIENTE, estado = la fecha):
+  #2 [PENDIENTE] RECLAMO - 05/04/2026 - 10008 Hugo Ruiz - MEDIA
+y la solicitud ya no puede cambiar de estado:
+  Nuevo estado (EN_PROCESO, RESUELTA, RECHAZADA): No se pudo cambiar el estado

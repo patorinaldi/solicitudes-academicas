@@ -1,0 +1,21 @@
+Clone found (java):
+ - src/main/java/ar/edu/utn/solicitudes/Main.java [81:31 - 90:49] (9 lines, 85 tokens)
+   src/main/java/ar/edu/utn/solicitudes/Main.java [65:31 - 74:84]
+
+Clone found (java):
+ - src/main/java/ar/edu/utn/solicitudes/Main.java [128:72 - 136:31] (8 lines, 149 tokens)
+   src/main/java/ar/edu/utn/solicitudes/Main.java [115:74 - 123:31]
+
+Clone found (java):
+ - src/main/java/ar/edu/utn/solicitudes/GestorSolicitudes.java [143:67 - 151:21] (8 lines, 99 tokens)
+   src/main/java/ar/edu/utn/solicitudes/GestorSolicitudes.java [111:60 - 119:25]
+
+┌────────┬────────────────┬─────────────┬──────────────┬──────────────┬──────────────────┬───────────────────┐
+│ Format │ Files analyzed │ Total lines │ Total tokens │ Clones found │ Duplicated lines │ Duplicated tokens │
+├────────┼────────────────┼─────────────┼──────────────┼──────────────┼──────────────────┼───────────────────┤
+│ java   │ 6              │ 531         │ 5773         │ 3            │ 25 (4.71%)       │ 333 (5.77%)       │
+├────────┼────────────────┼─────────────┼──────────────┼──────────────┼──────────────────┼───────────────────┤
+│ Total: │ 6              │ 531         │ 5773         │ 3            │ 25 (4.71%)       │ 333 (5.77%)       │
+└────────┴────────────────┴─────────────┴──────────────┴──────────────┴──────────────────┴───────────────────┘
+Found 3 clones.
+
