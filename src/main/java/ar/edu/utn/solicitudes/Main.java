@@ -1,130 +1,22 @@
 package ar.edu.utn.solicitudes;
 
-import java.util.List;
-import java.util.Scanner;
+import ar.edu.utn.solicitudes.aplicacion.SolicitudService;
+import ar.edu.utn.solicitudes.aplicacion.ValidadorSolicitud;
+import ar.edu.utn.solicitudes.consola.MenuConsola;
+import ar.edu.utn.solicitudes.dominio.CalculadoraPrioridad;
+import ar.edu.utn.solicitudes.persistencia.RepositorioCsv;
+import ar.edu.utn.solicitudes.persistencia.ResponsablesFijos;
+import java.nio.file.Path;
 
+/** Punto de entrada: arma las piezas y arranca el menú. */
 public class Main {
 
+    private static final String ARCHIVO_POR_DEFECTO = "solicitudes.csv";
+
     public static void main(String[] args) {
-        String archivo = args.length > 0 ? args[0] : "solicitudes.csv";
-        GestorSolicitudes gestor = new GestorSolicitudes(archivo);
-        Scanner entrada = new Scanner(System.in);
-        int opcion = -1;
-        while (opcion != 0) {
-            mostrarMenu();
-            if (!entrada.hasNextLine()) {
-                break;
-            }
-            try {
-                opcion = Integer.parseInt(entrada.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Opcion invalida");
-                continue;
-            }
-            switch (opcion) {
-                case 1 -> registrar(entrada, gestor);
-                case 2 -> cambiarEstado(entrada, gestor);
-                case 3 -> asignarResponsable(entrada, gestor);
-                case 4 -> buscar(entrada, gestor);
-                case 5 -> System.out.print(gestor.reporte().comoTexto());
-                case 6 -> listar(gestor, gestor.todas(), "No hay solicitudes registradas");
-                case 0 -> System.out.println("Hasta luego");
-                default -> System.out.println("Opcion invalida");
-            }
-        }
-    }
-
-    private static void mostrarMenu() {
-        System.out.println();
-        System.out.println("=== SOLICITUDES ACADEMICAS ===");
-        System.out.println("1. Registrar solicitud");
-        System.out.println("2. Cambiar estado");
-        System.out.println("3. Asignar responsable");
-        System.out.println("4. Buscar solicitudes");
-        System.out.println("5. Reporte");
-        System.out.println("6. Listar todas");
-        System.out.println("0. Salir");
-        System.out.print("Opcion: ");
-    }
-
-    private static String preguntar(Scanner entrada, String pregunta) {
-        System.out.print(pregunta);
-        return entrada.nextLine();
-    }
-
-    private static void registrar(Scanner entrada, GestorSolicitudes gestor) {
-        String legajo = preguntar(entrada, "Legajo: ");
-        String nombre = preguntar(entrada, "Nombre: ");
-        String email = preguntar(entrada, "Email: ");
-        String carrera = preguntar(entrada, "Carrera: ");
-        String tipo = preguntar(entrada, "Tipo (CONSTANCIA, EXAMEN, EQUIVALENCIA, RECLAMO): ");
-        String descripcion = preguntar(entrada, "Descripcion: ");
-        String fecha = preguntar(entrada, "Fecha (dd/mm/aaaa): ");
-        boolean urgente = preguntar(entrada, "Urgente (s/n): ").trim().equalsIgnoreCase("s");
-        try {
-            gestor.registrar(new NuevaSolicitud(legajo, nombre, email, carrera, tipo, descripcion, fecha, urgente));
-        } catch (DatosInvalidosException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    // Devuelve null si el id no es un numero
-    private static Integer leerId(Scanner entrada) {
-        String texto = preguntar(entrada, "Id de la solicitud: ");
-        try {
-            return Integer.parseInt(texto.trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Id invalido");
-            return null;
-        }
-    }
-
-    private static void cambiarEstado(Scanner entrada, GestorSolicitudes gestor) {
-        Integer id = leerId(entrada);
-        if (id == null) {
-            return;
-        }
-        String estado = preguntar(entrada, "Nuevo estado (EN_PROCESO, RESUELTA, RECHAZADA): ");
-        try {
-            gestor.cambiarEstado(id, estado);
-            System.out.println("Estado actualizado");
-        } catch (SolicitudException e) {
-            System.out.println("No se pudo cambiar el estado");
-        }
-    }
-
-    private static void asignarResponsable(Scanner entrada, GestorSolicitudes gestor) {
-        Integer id = leerId(entrada);
-        if (id == null) {
-            return;
-        }
-        String responsable = preguntar(entrada, "Responsable: ");
-        try {
-            gestor.asignarResponsable(id, responsable);
-            System.out.println("Responsable asignado");
-        } catch (SolicitudException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private static void buscar(Scanner entrada, GestorSolicitudes gestor) {
-        String tipo = preguntar(entrada, "Tipo (vacio = todos): ");
-        String estado = preguntar(entrada, "Estado (vacio = todos): ");
-        String prioridad = preguntar(entrada, "Prioridad (vacio = todas): ");
-        String legajo = preguntar(entrada, "Legajo (vacio = todos): ");
-        FiltroSolicitudes filtro = new FiltroSolicitudes(tipo, estado, prioridad, legajo);
-        listar(gestor, gestor.buscar(filtro), "No hay solicitudes que coincidan");
-    }
-
-    private static void listar(GestorSolicitudes gestor, List<Solicitud> solicitudes, String mensajeSiVacia) {
-        if (solicitudes.isEmpty()) {
-            System.out.println(mensajeSiVacia);
-        }
-        for (Solicitud solicitud : solicitudes) {
-            Estudiante estudiante = gestor.estudiante(solicitud.legajo());
-            System.out.println("#" + solicitud.id() + " [" + solicitud.prioridad() + "] " + solicitud.tipo() + " - "
-                    + solicitud.estado() + " - " + solicitud.legajo() + " " + estudiante.nombre() + " - "
-                    + solicitud.responsable().orElse("Sin asignar"));
-        }
+        Path archivo = Path.of(args.length > 0 ? args[0] : ARCHIVO_POR_DEFECTO);
+        SolicitudService servicio = new SolicitudService(new RepositorioCsv(archivo), new ResponsablesFijos(),
+                new ValidadorSolicitud(), new CalculadoraPrioridad());
+        new MenuConsola(servicio, System.in, System.out).ejecutar();
     }
 }
