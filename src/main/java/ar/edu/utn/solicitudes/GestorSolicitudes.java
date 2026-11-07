@@ -10,13 +10,13 @@ import java.util.HashMap;
 public class GestorSolicitudes {
 
     private static final int LARGO_MAXIMO_DESCRIPCION = 300;
-    private static final int LARGO_RECLAMO_EXTENSO = 200;
 
     private String archivo;
     private ArrayList<Solicitud> lista = new ArrayList<>();
     private HashMap<String, Estudiante> estudiantes = new HashMap<>();
     private ArrayList<Responsable> responsables = new ArrayList<>();
     private int ultimoId = 0;
+    private final CalculadoraPrioridad calculadoraPrioridad = new CalculadoraPrioridad();
 
     public GestorSolicitudes(String archivo) {
         this.archivo = archivo;
@@ -46,7 +46,7 @@ public class GestorSolicitudes {
         solicitud.fecha = datos.fecha().trim();
         solicitud.estado = EstadoSolicitud.PENDIENTE;
         solicitud.responsable = "";
-        solicitud.prioridad = calcularPrioridad(tipo, solicitud.descripcion, datos.urgente());
+        solicitud.prioridad = calculadoraPrioridad.calcular(tipo, solicitud.descripcion, datos.urgente());
 
         lista.add(solicitud);
         guardar();
@@ -93,16 +93,6 @@ public class GestorSolicitudes {
             estudiantes.put(estudiante.legajo, estudiante);
         }
         return estudiante;
-    }
-
-    private Prioridad calcularPrioridad(TipoSolicitud tipo, String descripcion, boolean urgente) {
-        if (urgente) {
-            return Prioridad.ALTA;
-        }
-        if (tipo == TipoSolicitud.RECLAMO && descripcion.length() > LARGO_RECLAMO_EXTENSO) {
-            return Prioridad.ALTA;
-        }
-        return tipo.prioridadBase();
     }
 
     private Solicitud buscarPorId(int id) {
@@ -171,22 +161,11 @@ public class GestorSolicitudes {
     public ArrayList<Solicitud> buscar(FiltroSolicitudes filtro) {
         ArrayList<Solicitud> resultado = new ArrayList<>();
         for (Solicitud solicitud : lista) {
-            if (coincide(filtro.tipo(), solicitud.tipo.name(), true)
-                    && coincide(filtro.estado(), solicitud.estado.name(), true)
-                    && coincide(filtro.prioridad(), solicitud.prioridad.name(), true)
-                    && coincide(filtro.legajo(), solicitud.legajo, false)) {
+            if (filtro.admite(solicitud)) {
                 resultado.add(solicitud);
             }
         }
         return resultado;
-    }
-
-    private boolean coincide(String filtro, String valor, boolean ignorarMayusculas) {
-        if (filtro == null || filtro.trim().isEmpty()) {
-            return true;
-        }
-        String buscado = ignorarMayusculas ? filtro.trim().toUpperCase() : filtro.trim();
-        return valor.equals(buscado);
     }
 
     public ArrayList<Solicitud> todas() {
@@ -197,57 +176,8 @@ public class GestorSolicitudes {
         return estudiantes.get(legajo);
     }
 
-    public String reporte() {
-        String reporte = "=== REPORTE ===\n";
-        reporte += "Total: " + lista.size() + "\n";
-        for (EstadoSolicitud estado : EstadoSolicitud.values()) {
-            reporte += estado + ": " + contarPorEstado(estado) + "\n";
-        }
-        reporte += "Prioridad ALTA: " + contarPorPrioridad(Prioridad.ALTA) + " | MEDIA: "
-                + contarPorPrioridad(Prioridad.MEDIA) + " | BAJA: " + contarPorPrioridad(Prioridad.BAJA) + "\n";
-        reporte += "Urgentes: " + contarUrgentes() + "\n";
-        reporte += "Abiertas sin responsable: " + contarAbiertasSinResponsable() + "\n";
-        return reporte;
-    }
-
-    private int contarPorEstado(EstadoSolicitud estado) {
-        int cantidad = 0;
-        for (Solicitud solicitud : lista) {
-            if (solicitud.estado == estado) {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-    private int contarPorPrioridad(Prioridad prioridad) {
-        int cantidad = 0;
-        for (Solicitud solicitud : lista) {
-            if (solicitud.prioridad == prioridad) {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-    private int contarUrgentes() {
-        int cantidad = 0;
-        for (Solicitud solicitud : lista) {
-            if (solicitud instanceof SolicitudUrgente) {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-    private int contarAbiertasSinResponsable() {
-        int cantidad = 0;
-        for (Solicitud solicitud : lista) {
-            if (solicitud.responsable.equals("") && !solicitud.estado.estaCerrado()) {
-                cantidad++;
-            }
-        }
-        return cantidad;
+    public Reporte reporte() {
+        return Reporte.de(lista);
     }
 
     private void guardar() {
