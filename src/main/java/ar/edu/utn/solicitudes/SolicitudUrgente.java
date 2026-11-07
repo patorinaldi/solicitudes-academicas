@@ -4,8 +4,8 @@ package ar.edu.utn.solicitudes;
 public class SolicitudUrgente extends Solicitud {
 
     @Override
-    public void cambiarEstado(String nuevo) {
-        if (nuevo.equals("RECHAZADA")) {
+    public void cambiarEstado(EstadoSolicitud nuevo) {
+        if (nuevo == EstadoSolicitud.RECHAZADA) {
             throw new UnsupportedOperationException("Una solicitud urgente no se puede rechazar");
         }
         this.estado = nuevo;

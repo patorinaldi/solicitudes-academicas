@@ -20,10 +20,10 @@ public class GestorSolicitudes {
 
     public GestorSolicitudes(String archivo) {
         this.archivo = archivo;
-        responsables.add(new Responsable("Laura Gomez", "ALUMNOS"));
-        responsables.add(new Responsable("Martin Paz", "BEDELIA"));
-        responsables.add(new Responsable("Sofia Ruiz", "SECRETARIA_ACADEMICA"));
-        responsables.add(new Responsable("Diego Lopez", "ALUMNOS"));
+        responsables.add(new Responsable("Laura Gomez", Area.ALUMNOS));
+        responsables.add(new Responsable("Martin Paz", Area.BEDELIA));
+        responsables.add(new Responsable("Sofia Ruiz", Area.SECRETARIA_ACADEMICA));
+        responsables.add(new Responsable("Diego Lopez", Area.ALUMNOS));
         cargar();
     }
 
@@ -34,24 +34,24 @@ public class GestorSolicitudes {
         if (error != 0) {
             return error;
         }
-        String tipoNormalizado = datos.tipo().trim().toUpperCase();
+        TipoSolicitud tipo = TipoSolicitud.desde(datos.tipo()).orElseThrow();
         Estudiante estudiante = obtenerOCrearEstudiante(datos);
 
         Solicitud solicitud = datos.urgente() ? new SolicitudUrgente() : new Solicitud();
         ultimoId++;
         solicitud.id = ultimoId;
         solicitud.legajo = estudiante.legajo;
-        solicitud.tipo = tipoNormalizado;
+        solicitud.tipo = tipo;
         solicitud.descripcion = datos.descripcion().trim();
         solicitud.fecha = datos.fecha().trim();
-        solicitud.estado = "PENDIENTE";
+        solicitud.estado = EstadoSolicitud.PENDIENTE;
         solicitud.responsable = "";
-        solicitud.prioridad = calcularPrioridad(tipoNormalizado, solicitud.descripcion, datos.urgente());
+        solicitud.prioridad = calcularPrioridad(tipo, solicitud.descripcion, datos.urgente());
 
         lista.add(solicitud);
         guardar();
         System.out.println("Solicitud #" + solicitud.id + " registrada. Prioridad " + solicitud.prioridad
-                + ". Area: " + areaDe(tipoNormalizado));
+                + ". Area: " + tipo.area());
         return solicitud.id;
     }
 
@@ -69,9 +69,7 @@ public class GestorSolicitudes {
         if (email == null || email.indexOf("@") <= 0 || email.indexOf(".", email.indexOf("@")) < 0) {
             return -3;
         }
-        String tipoNormalizado = datos.tipo() == null ? "" : datos.tipo().trim().toUpperCase();
-        if (!tipoNormalizado.equals("CONSTANCIA") && !tipoNormalizado.equals("EXAMEN")
-                && !tipoNormalizado.equals("EQUIVALENCIA") && !tipoNormalizado.equals("RECLAMO")) {
+        if (TipoSolicitud.desde(datos.tipo()).isEmpty()) {
             return -4;
         }
         if (descripcion == null || descripcion.trim().isEmpty() || descripcion.length() > LARGO_MAXIMO_DESCRIPCION) {
@@ -97,27 +95,14 @@ public class GestorSolicitudes {
         return estudiante;
     }
 
-    private String calcularPrioridad(String tipo, String descripcion, boolean urgente) {
-        if (urgente || tipo.equals("EXAMEN")) {
-            return "ALTA";
+    private Prioridad calcularPrioridad(TipoSolicitud tipo, String descripcion, boolean urgente) {
+        if (urgente) {
+            return Prioridad.ALTA;
         }
-        if (tipo.equals("EQUIVALENCIA")) {
-            return "MEDIA";
+        if (tipo == TipoSolicitud.RECLAMO && descripcion.length() > LARGO_RECLAMO_EXTENSO) {
+            return Prioridad.ALTA;
         }
-        if (tipo.equals("RECLAMO")) {
-            return descripcion.length() > LARGO_RECLAMO_EXTENSO ? "ALTA" : "MEDIA";
-        }
-        return "BAJA";
-    }
-
-    private String areaDe(String tipo) {
-        if (tipo.equals("EXAMEN")) {
-            return "BEDELIA";
-        }
-        if (tipo.equals("EQUIVALENCIA")) {
-            return "SECRETARIA_ACADEMICA";
-        }
-        return "ALUMNOS";
+        return tipo.prioridadBase();
     }
 
     private Solicitud buscarPorId(int id) {
@@ -129,19 +114,6 @@ public class GestorSolicitudes {
         return null;
     }
 
-    private boolean estaCerrada(Solicitud solicitud) {
-        return solicitud.estado.equals("RESUELTA") || solicitud.estado.equals("RECHAZADA");
-    }
-
-    private boolean transicionPermitida(String actual, String nuevo) {
-        if (actual.equals("PENDIENTE")) {
-            return nuevo.equals("EN_PROCESO") || nuevo.equals("RECHAZADA");
-        }
-        if (actual.equals("EN_PROCESO")) {
-            return nuevo.equals("RESUELTA") || nuevo.equals("RECHAZADA");
-        }
-        return false;
-    }
 
     // Cambia el estado. Devuelve false si no se pudo.
     public boolean cambiarEstado(int id, String nuevoEstado) {
@@ -149,11 +121,11 @@ public class GestorSolicitudes {
         if (solicitud == null) {
             return false;
         }
-        String nuevo = nuevoEstado == null ? "" : nuevoEstado.trim().toUpperCase();
-        if (!transicionPermitida(solicitud.estado, nuevo)) {
+        EstadoSolicitud nuevo = EstadoSolicitud.desde(nuevoEstado).orElse(null);
+        if (nuevo == null || !solicitud.estado.puedePasarA(nuevo)) {
             return false;
         }
-        if (solicitud instanceof SolicitudUrgente && nuevo.equals("RECHAZADA")) {
+        if (solicitud instanceof SolicitudUrgente && nuevo == EstadoSolicitud.RECHAZADA) {
             return false;
         }
         solicitud.cambiarEstado(nuevo);
@@ -172,15 +144,15 @@ public class GestorSolicitudes {
         if (responsable == null) {
             return 2;
         }
-        if (!responsable.area.equals(areaDe(solicitud.tipo))) {
+        if (responsable.area != solicitud.tipo.area()) {
             return 3;
         }
-        if (estaCerrada(solicitud)) {
+        if (solicitud.estado.estaCerrado()) {
             return 4;
         }
         solicitud.responsable = responsable.nombre;
-        if (solicitud.estado.equals("PENDIENTE")) {
-            solicitud.estado = "EN_PROCESO";
+        if (solicitud.estado == EstadoSolicitud.PENDIENTE) {
+            solicitud.estado = EstadoSolicitud.EN_PROCESO;
         }
         guardar();
         return 0;
@@ -199,8 +171,9 @@ public class GestorSolicitudes {
     public ArrayList<Solicitud> buscar(FiltroSolicitudes filtro) {
         ArrayList<Solicitud> resultado = new ArrayList<>();
         for (Solicitud solicitud : lista) {
-            if (coincide(filtro.tipo(), solicitud.tipo, true) && coincide(filtro.estado(), solicitud.estado, true)
-                    && coincide(filtro.prioridad(), solicitud.prioridad, true)
+            if (coincide(filtro.tipo(), solicitud.tipo.name(), true)
+                    && coincide(filtro.estado(), solicitud.estado.name(), true)
+                    && coincide(filtro.prioridad(), solicitud.prioridad.name(), true)
                     && coincide(filtro.legajo(), solicitud.legajo, false)) {
                 resultado.add(solicitud);
             }
@@ -227,30 +200,30 @@ public class GestorSolicitudes {
     public String reporte() {
         String reporte = "=== REPORTE ===\n";
         reporte += "Total: " + lista.size() + "\n";
-        for (String estado : new String[] {"PENDIENTE", "EN_PROCESO", "RESUELTA", "RECHAZADA"}) {
+        for (EstadoSolicitud estado : EstadoSolicitud.values()) {
             reporte += estado + ": " + contarPorEstado(estado) + "\n";
         }
-        reporte += "Prioridad ALTA: " + contarPorPrioridad("ALTA") + " | MEDIA: " + contarPorPrioridad("MEDIA")
-                + " | BAJA: " + contarPorPrioridad("BAJA") + "\n";
+        reporte += "Prioridad ALTA: " + contarPorPrioridad(Prioridad.ALTA) + " | MEDIA: "
+                + contarPorPrioridad(Prioridad.MEDIA) + " | BAJA: " + contarPorPrioridad(Prioridad.BAJA) + "\n";
         reporte += "Urgentes: " + contarUrgentes() + "\n";
         reporte += "Abiertas sin responsable: " + contarAbiertasSinResponsable() + "\n";
         return reporte;
     }
 
-    private int contarPorEstado(String estado) {
+    private int contarPorEstado(EstadoSolicitud estado) {
         int cantidad = 0;
         for (Solicitud solicitud : lista) {
-            if (solicitud.estado.equals(estado)) {
+            if (solicitud.estado == estado) {
                 cantidad++;
             }
         }
         return cantidad;
     }
 
-    private int contarPorPrioridad(String prioridad) {
+    private int contarPorPrioridad(Prioridad prioridad) {
         int cantidad = 0;
         for (Solicitud solicitud : lista) {
-            if (solicitud.prioridad.equals(prioridad)) {
+            if (solicitud.prioridad == prioridad) {
                 cantidad++;
             }
         }
@@ -270,7 +243,7 @@ public class GestorSolicitudes {
     private int contarAbiertasSinResponsable() {
         int cantidad = 0;
         for (Solicitud solicitud : lista) {
-            if (solicitud.responsable.equals("") && !estaCerrada(solicitud)) {
+            if (solicitud.responsable.equals("") && !solicitud.estado.estaCerrado()) {
                 cantidad++;
             }
         }
@@ -310,11 +283,11 @@ public class GestorSolicitudes {
                 }
                 s.id = Integer.parseInt(p[0]);
                 s.legajo = p[1];
-                s.tipo = p[5];
+                s.tipo = TipoSolicitud.valueOf(p[5]);
                 s.descripcion = p[6];
                 s.fecha = p[7];
-                s.estado = p[8];
-                s.prioridad = p[9];
+                s.estado = EstadoSolicitud.valueOf(p[8]);
+                s.prioridad = Prioridad.valueOf(p[9]);
                 s.responsable = p[10];
                 if (!estudiantes.containsKey(p[1])) {
                     Estudiante e = new Estudiante();
