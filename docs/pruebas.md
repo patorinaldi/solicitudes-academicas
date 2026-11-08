@@ -41,8 +41,8 @@ prueba falla.
 
 - **39 pruebas, 39 en verde** (`docs/evidencias/final/pruebas.txt`). `mvn verify` además deja el
   informe de cobertura de JaCoCo en `target/site/jacoco/index.html`.
-- **Golden master en verde en los 12 commits** desde que existe, incluidos los 7 de refactoring y
-  los 2 de corrección.
+- **Golden master en verde en todos los commits** desde que existe, incluidos los 7 de refactoring,
+  los 2 de corrección y los 4 de la revisión de código.
 
 ## Antes y después
 

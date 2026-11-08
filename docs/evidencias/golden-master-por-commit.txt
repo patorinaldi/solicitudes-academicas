@@ -13,3 +13,9 @@ c23b8bf  refactor: Encapsulate Field y Replace Subclass with Field (LSP)        
 dbd7e71  test: pruebas unitarias del dominio y del servicio (patron AAA)            golden master 2/2 | 34 de 34 pruebas en verde
 dd2c317  fix: la fecha se modela como LocalDate y se rechazan fechas inexistentes ( golden master 2/2 | 35 de 35 pruebas en verde
 2f75da7  fix: errores de persistencia visibles y descripcion sin el separador del C golden master 2/2 | 39 de 39 pruebas en verde
+ca15454  test: evidencias antes/despues y plan de pruebas                          golden master 2/2 | 39 de 39 pruebas en verde
+afc7d38  review(CR-01): Introduce Parameter Object DetalleSolicitud                golden master 2/2 | 39 de 39 pruebas en verde
+519f439  review(CR-02): Extract Method por campo en ValidadorSolicitud             golden master 2/2 | 39 de 39 pruebas en verde
+2ef8811  review(CR-03): una sola conversion de texto a enum                        golden master 2/2 | 39 de 39 pruebas en verde
+f1b6075  review(CR-04, CR-05): mensaje del error de estudiante y documentacion de  golden master 2/2 | 39 de 39 pruebas en verde
+35a794c  docs: README final, revision de codigo, checklist, ADR y uso de IA        golden master 2/2 | 39 de 39 pruebas en verde
