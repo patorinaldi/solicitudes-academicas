@@ -27,15 +27,6 @@ public enum TipoSolicitud {
 
     /** Interpreta lo que escribe el usuario, sin distinguir mayúsculas ni espacios. */
     public static Optional<TipoSolicitud> desde(String texto) {
-        if (texto == null) {
-            return Optional.empty();
-        }
-        String normalizado = texto.trim().toUpperCase();
-        for (TipoSolicitud tipo : values()) {
-            if (tipo.name().equals(normalizado)) {
-                return Optional.of(tipo);
-            }
-        }
-        return Optional.empty();
+        return TextoEnum.buscar(TipoSolicitud.class, texto);
     }
 }

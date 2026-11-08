@@ -23,15 +23,6 @@ public enum EstadoSolicitud {
     }
 
     public static Optional<EstadoSolicitud> desde(String texto) {
-        if (texto == null) {
-            return Optional.empty();
-        }
-        String normalizado = texto.trim().toUpperCase();
-        for (EstadoSolicitud estado : values()) {
-            if (estado.name().equals(normalizado)) {
-                return Optional.of(estado);
-            }
-        }
-        return Optional.empty();
+        return TextoEnum.buscar(EstadoSolicitud.class, texto);
     }
 }
