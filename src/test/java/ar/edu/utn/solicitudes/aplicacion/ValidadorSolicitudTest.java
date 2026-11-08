@@ -70,6 +70,14 @@ class ValidadorSolicitudTest {
     }
 
     @Test
+    @DisplayName("Corrección D2: la descripción no puede contener el separador del archivo")
+    void descripcionConSeparador() {
+        NuevaSolicitud d = valida();
+        assertEquals("la descripcion no puede contener ';'", errorDe(new NuevaSolicitud(d.legajo(), d.nombre(),
+                d.email(), d.carrera(), d.tipo(), "Nota de Algebra; no figura en actas", d.fecha(), false)));
+    }
+
+    @Test
     @DisplayName("Informa el primer error en el orden de la versión inicial")
     void ordenDeLosErrores() {
         NuevaSolicitud todoMal = new NuevaSolicitud("1", "", "x", "", "OTRO", "", "ayer", false);

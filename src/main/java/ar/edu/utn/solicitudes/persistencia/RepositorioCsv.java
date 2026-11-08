@@ -6,9 +6,9 @@ import ar.edu.utn.solicitudes.dominio.Estudiante;
 import ar.edu.utn.solicitudes.dominio.Prioridad;
 import ar.edu.utn.solicitudes.dominio.Solicitud;
 import ar.edu.utn.solicitudes.dominio.TipoSolicitud;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import ar.edu.utn.solicitudes.aplicacion.PersistenciaException;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -39,6 +39,7 @@ public class RepositorioCsv implements RepositorioSolicitudes {
     private static final int PRIORIDAD = 9;
     private static final int RESPONSABLE = 10;
     private static final int URGENTE = 11;
+    private static final int CANTIDAD_DE_CAMPOS = 12;
 
     private final Path archivo;
     private final List<Solicitud> solicitudes = new ArrayList<>();
@@ -82,14 +83,13 @@ public class RepositorioCsv implements RepositorioSolicitudes {
     }
 
     private void guardar() {
-        try {
-            FileWriter fw = new FileWriter(archivo.toFile());
-            fw.write(ENCABEZADO + "\n");
+        try (BufferedWriter escritor = Files.newBufferedWriter(archivo)) {
+            escritor.write(ENCABEZADO + "\n");
             for (Solicitud solicitud : solicitudes) {
-                fw.write(aLinea(solicitud) + "\n");
+                escritor.write(aLinea(solicitud) + "\n");
             }
-            fw.close();
-        } catch (Exception ex) {
+        } catch (IOException e) {
+            throw new PersistenciaException("no se pudo guardar el archivo " + archivo, e);
         }
     }
 
@@ -105,21 +105,31 @@ public class RepositorioCsv implements RepositorioSolicitudes {
         if (!Files.exists(archivo)) {
             return;
         }
+        List<String> lineas;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(archivo.toFile()));
-            String linea = br.readLine();
-            while ((linea = br.readLine()) != null) {
-                String[] campos = linea.split(";", -1);
-                estudiantes.putIfAbsent(campos[LEGAJO], new Estudiante(campos[LEGAJO], campos[NOMBRE],
-                        campos[EMAIL], campos[CARRERA]));
-                solicitudes.add(new Solicitud(Integer.parseInt(campos[ID]), campos[LEGAJO],
-                        TipoSolicitud.valueOf(campos[TIPO]), campos[DESCRIPCION],
-                        LocalDate.parse(campos[FECHA], Solicitud.FORMATO_FECHA),
-                        Prioridad.valueOf(campos[PRIORIDAD]), campos[URGENTE].equals("true"),
-                        EstadoSolicitud.valueOf(campos[ESTADO]), campos[RESPONSABLE]));
-            }
-            br.close();
-        } catch (Exception ex) {
+            lineas = Files.readAllLines(archivo);
+        } catch (IOException e) {
+            throw new PersistenciaException("no se pudo leer el archivo " + archivo, e);
         }
+        for (int numero = 2; numero <= lineas.size(); numero++) {
+            try {
+                cargarLinea(lineas.get(numero - 1));
+            } catch (RuntimeException e) {
+                throw new PersistenciaException("la linea " + numero + " del archivo " + archivo + " no es valida", e);
+            }
+        }
+    }
+
+    private void cargarLinea(String linea) {
+        String[] campos = linea.split(";", -1);
+        if (campos.length != CANTIDAD_DE_CAMPOS) {
+            throw new IllegalArgumentException("se esperaban " + CANTIDAD_DE_CAMPOS + " campos y hay " + campos.length);
+        }
+        estudiantes.putIfAbsent(campos[LEGAJO],
+                new Estudiante(campos[LEGAJO], campos[NOMBRE], campos[EMAIL], campos[CARRERA]));
+        solicitudes.add(new Solicitud(Integer.parseInt(campos[ID]), campos[LEGAJO], TipoSolicitud.valueOf(campos[TIPO]),
+                campos[DESCRIPCION], LocalDate.parse(campos[FECHA], Solicitud.FORMATO_FECHA),
+                Prioridad.valueOf(campos[PRIORIDAD]), Boolean.parseBoolean(campos[URGENTE]),
+                EstadoSolicitud.valueOf(campos[ESTADO]), campos[RESPONSABLE]));
     }
 }
