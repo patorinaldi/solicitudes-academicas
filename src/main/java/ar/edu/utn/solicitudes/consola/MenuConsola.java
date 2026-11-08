@@ -2,6 +2,7 @@ package ar.edu.utn.solicitudes.consola;
 
 import ar.edu.utn.solicitudes.aplicacion.FiltroSolicitudes;
 import ar.edu.utn.solicitudes.aplicacion.NuevaSolicitud;
+import ar.edu.utn.solicitudes.aplicacion.PersistenciaException;
 import ar.edu.utn.solicitudes.aplicacion.SolicitudService;
 import ar.edu.utn.solicitudes.dominio.DatosInvalidosException;
 import ar.edu.utn.solicitudes.dominio.Estudiante;
@@ -46,15 +47,19 @@ public class MenuConsola {
     }
 
     private void atender(int opcion) {
-        switch (opcion) {
-            case 1 -> registrar();
-            case 2 -> cambiarEstado();
-            case 3 -> asignarResponsable();
-            case 4 -> buscar();
-            case 5 -> salida.print(servicio.reporte().comoTexto());
-            case 6 -> listar(servicio.todas(), "No hay solicitudes registradas");
-            case SALIR -> salida.println("Hasta luego");
-            default -> salida.println("Opcion invalida");
+        try {
+            switch (opcion) {
+                case 1 -> registrar();
+                case 2 -> cambiarEstado();
+                case 3 -> asignarResponsable();
+                case 4 -> buscar();
+                case 5 -> salida.print(servicio.reporte().comoTexto());
+                case 6 -> listar(servicio.todas(), "No hay solicitudes registradas");
+                case SALIR -> salida.println("Hasta luego");
+                default -> salida.println("Opcion invalida");
+            }
+        } catch (PersistenciaException e) {
+            salida.println("Error: " + e.getMessage());
         }
     }
 

@@ -12,6 +12,9 @@ public class ValidadorSolicitud {
 
     public static final int LARGO_MAXIMO_DESCRIPCION = 300;
 
+    /** El archivo usa ; como separador: una descripción con ; corrompería la fila. */
+    private static final String SEPARADOR_PROHIBIDO = ";";
+
     public void validar(NuevaSolicitud datos) {
         if (datos.legajo() == null || !datos.legajo().trim().matches("\\d{5}")) {
             throw new DatosInvalidosException("el legajo debe tener 5 digitos");
@@ -28,6 +31,9 @@ public class ValidadorSolicitud {
         if (esVacio(datos.descripcion()) || datos.descripcion().length() > LARGO_MAXIMO_DESCRIPCION) {
             throw new DatosInvalidosException(
                     "la descripcion es obligatoria y no puede superar los " + LARGO_MAXIMO_DESCRIPCION + " caracteres");
+        }
+        if (datos.descripcion().contains(SEPARADOR_PROHIBIDO)) {
+            throw new DatosInvalidosException("la descripcion no puede contener ';'");
         }
         if (datos.fecha() == null || !datos.fecha().trim().matches("\\d{2}/\\d{2}/\\d{4}")) {
             throw new DatosInvalidosException("la fecha debe tener el formato dd/mm/aaaa");
