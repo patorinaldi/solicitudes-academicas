@@ -71,7 +71,8 @@ public class SolicitudService {
     }
 
     public Estudiante estudiante(String legajo) {
-        return repositorio.estudiante(legajo).orElseThrow();
+        return repositorio.estudiante(legajo)
+                .orElseThrow(() -> new IllegalStateException("no hay datos del estudiante " + legajo));
     }
 
     public Reporte reporte() {

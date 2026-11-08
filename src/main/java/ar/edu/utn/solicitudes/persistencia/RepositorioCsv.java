@@ -78,6 +78,10 @@ public class RepositorioCsv implements RepositorioSolicitudes {
         guardar();
     }
 
+    /**
+     * La solicitud ya está en memoria con sus cambios; alcanza con reescribir el archivo completo.
+     * Es la misma estrategia de la versión inicial y es suficiente para el volumen de este sistema.
+     */
     @Override
     public void actualizar(Solicitud solicitud) {
         guardar();
