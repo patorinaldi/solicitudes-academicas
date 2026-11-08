@@ -1,6 +1,6 @@
 # ADR-001: Separar el sistema en capas que dependen del dominio
 
-**Estado:** Aceptado. **Commit:** `20e83af`.
+**Estado:** Aceptado. **Commit:** `78fc582`.
 
 ## Contexto
 En la versión inicial, `GestorSolicitudes` validaba, aplicaba las reglas, escribía el archivo CSV

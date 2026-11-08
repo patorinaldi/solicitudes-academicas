@@ -1,6 +1,6 @@
 # ADR-002: Golden master como red de seguridad del refactoring
 
-**Estado:** Aceptado. **Commit:** `1ea2d9e`.
+**Estado:** Aceptado. **Commit:** `adfccec`.
 
 ## Contexto
 La versión inicial no tenía pruebas (S13) y su diseño no permitía escribir pruebas unitarias: la
