@@ -48,17 +48,19 @@ prueba falla.
 
 | Métrica | `estado-inicial` | `estado-refactorizado` |
 |---|---|---|
-| Método más complejo (CCN) | 32 (`Main.main`) | 12 (`ValidadorSolicitud.validar`) |
-| Métodos con CCN > 10 | 6 de 14 | 1 de 72 |
-| CCN promedio por método | 9,7 | 2,0 |
-| Líneas del método más largo | 135 | 27 |
-| Parámetros del método con más parámetros | 8 (`registrar`) | 9 (constructor de `Solicitud`), ver revisión de código |
+| Método más complejo (CCN) | 32 (`Main.main`) | 9 (`MenuConsola.atender`, el `switch` del menú) |
+| Métodos con CCN > 10 | 6 de 14 | 0 de 80 |
+| CCN promedio por método | 9,7 | 1,9 |
+| Líneas del método más largo | 135 (`Main.main`) | 18 |
+| Máximo de parámetros | 8 (`registrar`) | 5 (constructor de `Solicitud`) |
 | Duplicación (jscpd) | 3 clones, 25 líneas (4,71%) | 0 clones |
 | Literales de dominio repetidos | 48 | 0 (enums) |
-| Clases | 6 | 27 |
+| `catch` vacíos | 2 | 0 |
+| Archivos de código | 6 | 29 |
 | Pruebas automáticas | 0 | 39 |
 | Defectos conocidos | 2 (D1, D2) | 0 |
 
-Los valores de `estado-refactorizado` se completan con la última medición, después de la revisión
-de código (ver `docs/code-review.md`). Las salidas completas de `lizard` y `jscpd` están en
+La cantidad de líneas crece (de 490 a 766) porque cada responsabilidad pasó a tener su clase, su
+nombre y su documentación; lo que baja es la complejidad que hay que entender para tocar cada parte.
+Las salidas completas de `lizard` y `jscpd` están en
 `docs/evidencias/inicial/` y `docs/evidencias/final/`.
