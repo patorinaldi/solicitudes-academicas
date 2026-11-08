@@ -1,0 +1,12 @@
+Mismas entradas que docs/evidencias/inicial/defectos.txt, sobre la version corregida.
+
+## D1: fecha 31/02/2026
+  Error: la fecha 31/02/2026 no existe
+
+## D2: descripcion "Nota de Algebra; no figura en actas"
+  Error: la descripcion no puede contener ';'
+
+## D2: arrancar con el archivo que dejo corrupto la version inicial
+  Error: la linea 2 del archivo .../corrupto.csv no es valida
+  (el sistema no arranca y el archivo queda intacto; la version inicial lo
+  cargaba con los campos corridos y lo volvia a guardar asi)

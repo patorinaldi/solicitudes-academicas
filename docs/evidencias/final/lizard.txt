@@ -1,0 +1,119 @@
+================================================
+  NLOC    CCN   token  PARAM  length  location  
+------------------------------------------------
+       9      4     54      3       9 CalculadoraPrioridad::calcular@9-17@src/main/java/ar/edu/utn/solicitudes/dominio/CalculadoraPrioridad.java
+       3      1     10      0       3 AreaIncorrectaException::AreaIncorrectaException@5-7@src/main/java/ar/edu/utn/solicitudes/dominio/AreaIncorrectaException.java
+       4      1     22      2       4 TipoSolicitud::TipoSolicitud@15-18@src/main/java/ar/edu/utn/solicitudes/dominio/TipoSolicitud.java
+       3      1      8      0       3 TipoSolicitud::area@20-22@src/main/java/ar/edu/utn/solicitudes/dominio/TipoSolicitud.java
+       3      1      8      0       3 TipoSolicitud::prioridadBase@24-26@src/main/java/ar/edu/utn/solicitudes/dominio/TipoSolicitud.java
+      12      4     76      1      12 TipoSolicitud::desde@29-40@src/main/java/ar/edu/utn/solicitudes/dominio/TipoSolicitud.java
+       7      4     56      1       7 EstadoSolicitud::puedePasarA@13-19@src/main/java/ar/edu/utn/solicitudes/dominio/EstadoSolicitud.java
+       3      2     14      0       3 EstadoSolicitud::estaCerrado@21-23@src/main/java/ar/edu/utn/solicitudes/dominio/EstadoSolicitud.java
+      12      4     76      1      12 EstadoSolicitud::desde@25-36@src/main/java/ar/edu/utn/solicitudes/dominio/EstadoSolicitud.java
+       3      1     12      1       3 DatosInvalidosException::DatosInvalidosException@5-7@src/main/java/ar/edu/utn/solicitudes/dominio/DatosInvalidosException.java
+       3      1     12      1       3 SolicitudException::SolicitudException@6-8@src/main/java/ar/edu/utn/solicitudes/dominio/SolicitudException.java
+       3      1     10      0       3 ResponsableInexistenteException::ResponsableInexistenteException@5-7@src/main/java/ar/edu/utn/solicitudes/dominio/ResponsableInexistenteException.java
+       3      1     14      1       3 SolicitudInexistenteException::SolicitudInexistenteException@5-7@src/main/java/ar/edu/utn/solicitudes/dominio/SolicitudInexistenteException.java
+       3      1     12      1       3 TransicionInvalidaException::TransicionInvalidaException@5-7@src/main/java/ar/edu/utn/solicitudes/dominio/TransicionInvalidaException.java
+      12      3    127      9      12 Solicitud::Solicitud@30-41@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       5      1     50      7       5 Solicitud::nueva@44-48@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       9      4     55      1       9 Solicitud::cambiarEstado@50-58@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+      12      4     69      1      12 Solicitud::asignar@61-72@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      2     17      0       3 Solicitud::estaAbiertaSinResponsable@74-76@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::id@78-80@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::legajo@82-84@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::tipo@86-88@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::descripcion@90-92@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::fecha@94-96@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::prioridad@98-100@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::esUrgente@102-104@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1      8      0       3 Solicitud::estado@106-108@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1     13      0       3 Solicitud::responsable@110-112@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       3      1     10      0       3 SolicitudCerradaException::SolicitudCerradaException@5-7@src/main/java/ar/edu/utn/solicitudes/dominio/SolicitudCerradaException.java
+       5      1     35      3       5 MenuConsola::MenuConsola@26-30@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      16      4     83      0      16 MenuConsola::ejecutar@32-47@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      16      9    115      1      16 MenuConsola::atender@49-64@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      12      1     74      0      12 MenuConsola::mostrarMenu@66-77@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      18      2    127      0      18 MenuConsola::registrar@79-96@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      13      3     72      0      13 MenuConsola::cambiarEstado@98-110@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      13      3     78      0      13 MenuConsola::asignarResponsable@112-124@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       8      1     44      0       8 MenuConsola::buscar@126-133@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       8      3     49      2       8 MenuConsola::listar@135-142@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       6      1     83      1       6 MenuConsola::comoLinea@144-149@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       7      2     39      0       7 MenuConsola::leerId@151-157@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       4      1     21      1       4 MenuConsola::preguntar@159-162@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       7      2     41      1       7 MenuConsola::aNumero@164-170@src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+       3      1     17      2       3 PersistenciaException::PersistenciaException@6-8@src/main/java/ar/edu/utn/solicitudes/aplicacion/PersistenciaException.java
+      27     12    234      1      27 ValidadorSolicitud::validar@18-44@src/main/java/ar/edu/utn/solicitudes/aplicacion/ValidadorSolicitud.java
+       7      2     49      1       7 ValidadorSolicitud::fecha@47-53@src/main/java/ar/edu/utn/solicitudes/aplicacion/ValidadorSolicitud.java
+       3      2     22      1       3 ValidadorSolicitud::esVacio@55-57@src/main/java/ar/edu/utn/solicitudes/aplicacion/ValidadorSolicitud.java
+       7      3     44      1       7 ValidadorSolicitud::esEmailValido@60-66@src/main/java/ar/edu/utn/solicitudes/aplicacion/ValidadorSolicitud.java
+       7      1     40      4       7 SolicitudService::SolicitudService@26-32@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+      12      1    147      1      12 SolicitudService::registrar@35-46@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       7      1     56      2       7 SolicitudService::cambiarEstado@48-54@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       6      2     59      2       6 SolicitudService::asignarResponsable@56-61@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       3      1     29      1       3 SolicitudService::buscar@63-65@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       3      1     12      0       3 SolicitudService::todas@67-69@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       3      1     19      1       3 SolicitudService::estudiante@71-73@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       3      1     17      0       3 SolicitudService::reporte@75-77@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       3      1     27      1       3 SolicitudService::buscar@79-81@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       4      2     67      1       4 SolicitudService::estudianteNuevo@83-86@src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+       6      4     72      1       6 FiltroSolicitudes::admite@8-13@src/main/java/ar/edu/utn/solicitudes/aplicacion/FiltroSolicitudes.java
+       7      4     59      3       7 FiltroSolicitudes::coincide@15-21@src/main/java/ar/edu/utn/solicitudes/aplicacion/FiltroSolicitudes.java
+       3      1     34      1       3 ResponsablesFijos::buscarPorNombre@19-21@src/main/java/ar/edu/utn/solicitudes/persistencia/ResponsablesFijos.java
+       4      1     17      1       4 RepositorioCsv::RepositorioCsv@48-51@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       3      1     13      0       3 RepositorioCsv::todas@54-56@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       3      1     31      1       3 RepositorioCsv::buscarPorId@59-61@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       3      1     20      1       3 RepositorioCsv::estudiante@64-66@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       3      1     30      0       3 RepositorioCsv::siguienteId@69-71@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       5      1     34      2       5 RepositorioCsv::agregar@74-78@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       3      1     11      1       3 RepositorioCsv::actualizar@81-83@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+      10      3     67      0      10 RepositorioCsv::guardar@85-94@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+       7      1    135      1       7 RepositorioCsv::aLinea@96-102@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+      18      5    114      0      18 RepositorioCsv::cargar@104-121@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+      12      2    169      1      12 RepositorioCsv::cargarLinea@123-134@src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+      13      3    110      1      14 Main::main@17-30@src/main/java/ar/edu/utn/solicitudes/Main.java
+27 file analyzed.
+==============================================================
+NLOC    Avg.NLOC  AvgCCN  Avg.token  function_cnt    file
+--------------------------------------------------------------
+     13       9.0     4.0       54.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/CalculadoraPrioridad.java
+      6       3.0     1.0       10.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/AreaIncorrectaException.java
+      6       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/dominio/Prioridad.java
+     32       5.5     1.8       28.5         4     src/main/java/ar/edu/utn/solicitudes/dominio/TipoSolicitud.java
+      3       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/dominio/Responsable.java
+     31       7.3     3.3       48.7         3     src/main/java/ar/edu/utn/solicitudes/dominio/EstadoSolicitud.java
+     43       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/dominio/Reporte.java
+      6       3.0     1.0       12.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/DatosInvalidosException.java
+      3       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/dominio/Estudiante.java
+      6       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/dominio/Area.java
+      6       3.0     1.0       12.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/SolicitudException.java
+      6       3.0     1.0       10.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/ResponsableInexistenteException.java
+      6       3.0     1.0       14.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/SolicitudInexistenteException.java
+      6       3.0     1.0       12.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/TransicionInvalidaException.java
+     87       4.9     1.6       28.2        14     src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+      6       3.0     1.0       10.0         1     src/main/java/ar/edu/utn/solicitudes/dominio/SolicitudCerradaException.java
+    153      10.2     2.5       66.2        13     src/main/java/ar/edu/utn/solicitudes/consola/MenuConsola.java
+      4       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/aplicacion/NuevaSolicitud.java
+      6       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/aplicacion/DirectorioResponsables.java
+      6       3.0     1.0       17.0         1     src/main/java/ar/edu/utn/solicitudes/aplicacion/PersistenciaException.java
+     55      11.0     4.8       87.2         4     src/main/java/ar/edu/utn/solicitudes/aplicacion/ValidadorSolicitud.java
+     13       0.0     0.0        0.0         0     src/main/java/ar/edu/utn/solicitudes/aplicacion/RepositorioSolicitudes.java
+     69       5.1     1.2       47.3        10     src/main/java/ar/edu/utn/solicitudes/aplicacion/SolicitudService.java
+     17       6.5     4.0       65.5         2     src/main/java/ar/edu/utn/solicitudes/aplicacion/FiltroSolicitudes.java
+     17       3.0     1.0       34.0         1     src/main/java/ar/edu/utn/solicitudes/persistencia/ResponsablesFijos.java
+    115       6.5     1.6       58.3        11     src/main/java/ar/edu/utn/solicitudes/persistencia/RepositorioCsv.java
+     25      13.0     3.0      110.0         1     src/main/java/ar/edu/utn/solicitudes/Main.java
+
+=======================================================================================================
+!!!! Warnings (cyclomatic_complexity > 10 or length > 40 or nloc > 1000000 or parameter_count > 5) !!!!
+================================================
+  NLOC    CCN   token  PARAM  length  location  
+------------------------------------------------
+      12      3    127      9      12 Solicitud::Solicitud@30-41@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+       5      1     50      7       5 Solicitud::nueva@44-48@src/main/java/ar/edu/utn/solicitudes/dominio/Solicitud.java
+      27     12    234      1      27 ValidadorSolicitud::validar@18-44@src/main/java/ar/edu/utn/solicitudes/aplicacion/ValidadorSolicitud.java
+==========================================================================================
+Total nloc   Avg.NLOC  AvgCCN  Avg.token   Fun Cnt  Warning cnt   Fun Rt   nloc Rt
+------------------------------------------------------------------------------------------
+       746       6.6     2.0       47.3       72            3      0.04    0.09
