@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class SolicitudTest {
 
     private static Solicitud nueva(TipoSolicitud tipo, boolean urgente) {
-        return Solicitud.nueva(1, "10001", tipo, "Descripcion", "03/03/2026", Prioridad.MEDIA, urgente);
+        return Solicitud.nueva(1, "10001", tipo, "Descripcion", LocalDate.of(2026, 3, 3), Prioridad.MEDIA, urgente);
     }
 
     @Test

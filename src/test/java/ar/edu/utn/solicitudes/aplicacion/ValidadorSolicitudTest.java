@@ -60,6 +60,16 @@ class ValidadorSolicitudTest {
     }
 
     @Test
+    @DisplayName("Corrección D1: rechaza una fecha con formato correcto que no existe")
+    void fechaInexistente() {
+        NuevaSolicitud d = valida();
+        assertEquals("la fecha 31/02/2026 no existe", errorDe(new NuevaSolicitud(d.legajo(), d.nombre(), d.email(),
+                d.carrera(), d.tipo(), d.descripcion(), "31/02/2026", false)));
+        validador.validar(new NuevaSolicitud(d.legajo(), d.nombre(), d.email(), d.carrera(), d.tipo(),
+                d.descripcion(), "29/02/2028", false));
+    }
+
+    @Test
     @DisplayName("Informa el primer error en el orden de la versión inicial")
     void ordenDeLosErrores() {
         NuevaSolicitud todoMal = new NuevaSolicitud("1", "", "x", "", "OTRO", "", "ayer", false);

@@ -1,7 +1,11 @@
 package ar.edu.utn.solicitudes.aplicacion;
 
 import ar.edu.utn.solicitudes.dominio.DatosInvalidosException;
+import ar.edu.utn.solicitudes.dominio.Solicitud;
 import ar.edu.utn.solicitudes.dominio.TipoSolicitud;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 /** Valida los datos de una solicitud nueva, en el orden en que se informan los errores. */
 public class ValidadorSolicitud {
@@ -27,6 +31,18 @@ public class ValidadorSolicitud {
         }
         if (datos.fecha() == null || !datos.fecha().trim().matches("\\d{2}/\\d{2}/\\d{4}")) {
             throw new DatosInvalidosException("la fecha debe tener el formato dd/mm/aaaa");
+        }
+        if (fecha(datos).isEmpty()) {
+            throw new DatosInvalidosException("la fecha " + datos.fecha().trim() + " no existe");
+        }
+    }
+
+    /** La fecha ya validada; vacío si el formato es correcto pero el día no existe (31/02). */
+    static Optional<LocalDate> fecha(NuevaSolicitud datos) {
+        try {
+            return Optional.of(LocalDate.parse(datos.fecha().trim(), Solicitud.FORMATO_FECHA));
+        } catch (DateTimeParseException e) {
+            return Optional.empty();
         }
     }
 
