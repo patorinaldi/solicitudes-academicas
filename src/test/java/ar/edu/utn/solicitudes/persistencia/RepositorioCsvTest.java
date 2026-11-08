@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ar.edu.utn.solicitudes.aplicacion.PersistenciaException;
+import ar.edu.utn.solicitudes.dominio.DetalleSolicitud;
 import ar.edu.utn.solicitudes.dominio.Area;
 import ar.edu.utn.solicitudes.dominio.Estudiante;
 import ar.edu.utn.solicitudes.dominio.Prioridad;
@@ -33,8 +34,8 @@ class RepositorioCsvTest {
     }
 
     private static Solicitud examen(int id) {
-        return Solicitud.nueva(id, "10002", TipoSolicitud.EXAMEN, "Mesa especial", LocalDate.of(2026, 3, 10),
-                Prioridad.ALTA, false);
+        return Solicitud.nueva(id, "10002", new DetalleSolicitud(TipoSolicitud.EXAMEN, "Mesa especial",
+                LocalDate.of(2026, 3, 10), Prioridad.ALTA, false));
     }
 
     @Test

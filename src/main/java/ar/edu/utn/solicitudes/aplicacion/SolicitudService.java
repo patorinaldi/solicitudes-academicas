@@ -1,5 +1,6 @@
 package ar.edu.utn.solicitudes.aplicacion;
 
+import ar.edu.utn.solicitudes.dominio.DetalleSolicitud;
 import ar.edu.utn.solicitudes.dominio.CalculadoraPrioridad;
 import ar.edu.utn.solicitudes.dominio.EstadoSolicitud;
 import ar.edu.utn.solicitudes.dominio.Estudiante;
@@ -39,8 +40,9 @@ public class SolicitudService {
                 .orElseGet(() -> estudianteNuevo(datos));
         String descripcion = datos.descripcion().trim();
         Prioridad prioridad = calculadoraPrioridad.calcular(tipo, descripcion, datos.urgente());
-        Solicitud solicitud = Solicitud.nueva(repositorio.siguienteId(), estudiante.legajo(), tipo, descripcion,
+        DetalleSolicitud detalle = new DetalleSolicitud(tipo, descripcion,
                 ValidadorSolicitud.fecha(datos).orElseThrow(), prioridad, datos.urgente());
+        Solicitud solicitud = Solicitud.nueva(repositorio.siguienteId(), estudiante.legajo(), detalle);
         repositorio.agregar(solicitud, estudiante);
         return solicitud;
     }

@@ -3,6 +3,7 @@ package ar.edu.utn.solicitudes.aplicacion;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import ar.edu.utn.solicitudes.dominio.DetalleSolicitud;
 import ar.edu.utn.solicitudes.dominio.Prioridad;
 import ar.edu.utn.solicitudes.dominio.Solicitud;
 import ar.edu.utn.solicitudes.dominio.TipoSolicitud;
@@ -12,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 class FiltroSolicitudesTest {
 
-    private final Solicitud examen = Solicitud.nueva(2, "10002", TipoSolicitud.EXAMEN, "Mesa especial",
-            LocalDate.of(2026, 3, 10), Prioridad.ALTA, false);
+    private final Solicitud examen = Solicitud.nueva(2, "10002", new DetalleSolicitud(TipoSolicitud.EXAMEN,
+            "Mesa especial", LocalDate.of(2026, 3, 10), Prioridad.ALTA, false));
 
     @Test
     @DisplayName("Un filtro sin criterios admite todo")

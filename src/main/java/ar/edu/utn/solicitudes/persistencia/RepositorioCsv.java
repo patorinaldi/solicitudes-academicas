@@ -1,6 +1,7 @@
 package ar.edu.utn.solicitudes.persistencia;
 
 import ar.edu.utn.solicitudes.aplicacion.RepositorioSolicitudes;
+import ar.edu.utn.solicitudes.dominio.DetalleSolicitud;
 import ar.edu.utn.solicitudes.dominio.EstadoSolicitud;
 import ar.edu.utn.solicitudes.dominio.Estudiante;
 import ar.edu.utn.solicitudes.dominio.Prioridad;
@@ -127,9 +128,10 @@ public class RepositorioCsv implements RepositorioSolicitudes {
         }
         estudiantes.putIfAbsent(campos[LEGAJO],
                 new Estudiante(campos[LEGAJO], campos[NOMBRE], campos[EMAIL], campos[CARRERA]));
-        solicitudes.add(new Solicitud(Integer.parseInt(campos[ID]), campos[LEGAJO], TipoSolicitud.valueOf(campos[TIPO]),
-                campos[DESCRIPCION], LocalDate.parse(campos[FECHA], Solicitud.FORMATO_FECHA),
-                Prioridad.valueOf(campos[PRIORIDAD]), Boolean.parseBoolean(campos[URGENTE]),
+        DetalleSolicitud detalle = new DetalleSolicitud(TipoSolicitud.valueOf(campos[TIPO]), campos[DESCRIPCION],
+                LocalDate.parse(campos[FECHA], Solicitud.FORMATO_FECHA), Prioridad.valueOf(campos[PRIORIDAD]),
+                Boolean.parseBoolean(campos[URGENTE]));
+        solicitudes.add(new Solicitud(Integer.parseInt(campos[ID]), campos[LEGAJO], detalle,
                 EstadoSolicitud.valueOf(campos[ESTADO]), campos[RESPONSABLE]));
     }
 }
