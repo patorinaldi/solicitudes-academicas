@@ -16,25 +16,49 @@ public class ValidadorSolicitud {
     private static final String SEPARADOR_PROHIBIDO = ";";
 
     public void validar(NuevaSolicitud datos) {
-        if (datos.legajo() == null || !datos.legajo().trim().matches("\\d{5}")) {
+        validarLegajo(datos.legajo());
+        validarNombre(datos.nombre());
+        validarEmail(datos.email());
+        validarTipo(datos.tipo());
+        validarDescripcion(datos.descripcion());
+        validarFecha(datos);
+    }
+
+    private static void validarLegajo(String legajo) {
+        if (legajo == null || !legajo.trim().matches("\\d{5}")) {
             throw new DatosInvalidosException("el legajo debe tener 5 digitos");
         }
-        if (esVacio(datos.nombre())) {
+    }
+
+    private static void validarNombre(String nombre) {
+        if (esVacio(nombre)) {
             throw new DatosInvalidosException("el nombre es obligatorio");
         }
-        if (!esEmailValido(datos.email())) {
+    }
+
+    private static void validarEmail(String email) {
+        if (!esEmailValido(email)) {
             throw new DatosInvalidosException("email invalido");
         }
-        if (TipoSolicitud.desde(datos.tipo()).isEmpty()) {
+    }
+
+    private static void validarTipo(String tipo) {
+        if (TipoSolicitud.desde(tipo).isEmpty()) {
             throw new DatosInvalidosException("tipo de solicitud invalido");
         }
-        if (esVacio(datos.descripcion()) || datos.descripcion().length() > LARGO_MAXIMO_DESCRIPCION) {
+    }
+
+    private static void validarDescripcion(String descripcion) {
+        if (esVacio(descripcion) || descripcion.length() > LARGO_MAXIMO_DESCRIPCION) {
             throw new DatosInvalidosException(
                     "la descripcion es obligatoria y no puede superar los " + LARGO_MAXIMO_DESCRIPCION + " caracteres");
         }
-        if (datos.descripcion().contains(SEPARADOR_PROHIBIDO)) {
+        if (descripcion.contains(SEPARADOR_PROHIBIDO)) {
             throw new DatosInvalidosException("la descripcion no puede contener ';'");
         }
+    }
+
+    private static void validarFecha(NuevaSolicitud datos) {
         if (datos.fecha() == null || !datos.fecha().trim().matches("\\d{2}/\\d{2}/\\d{4}")) {
             throw new DatosInvalidosException("la fecha debe tener el formato dd/mm/aaaa");
         }

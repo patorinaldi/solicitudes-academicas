@@ -19,39 +19,28 @@ public class Solicitud {
 
     private final int id;
     private final String legajo;
-    private final TipoSolicitud tipo;
-    private final String descripcion;
-    private final LocalDate fecha;
-    private final Prioridad prioridad;
-    private final boolean urgente;
+    private final DetalleSolicitud detalle;
     private EstadoSolicitud estado;
     private String responsable;
 
-    public Solicitud(int id, String legajo, TipoSolicitud tipo, String descripcion, LocalDate fecha,
-                     Prioridad prioridad, boolean urgente, EstadoSolicitud estado, String responsable) {
+    public Solicitud(int id, String legajo, DetalleSolicitud detalle, EstadoSolicitud estado, String responsable) {
         this.id = id;
         this.legajo = Objects.requireNonNull(legajo);
-        this.tipo = Objects.requireNonNull(tipo);
-        this.descripcion = Objects.requireNonNull(descripcion);
-        this.fecha = Objects.requireNonNull(fecha);
-        this.prioridad = Objects.requireNonNull(prioridad);
-        this.urgente = urgente;
+        this.detalle = Objects.requireNonNull(detalle);
         this.estado = Objects.requireNonNull(estado);
         this.responsable = responsable == null || responsable.isEmpty() ? null : responsable;
     }
 
     /** Una solicitud recién registrada: pendiente y sin responsable. */
-    public static Solicitud nueva(int id, String legajo, TipoSolicitud tipo, String descripcion, LocalDate fecha,
-                                  Prioridad prioridad, boolean urgente) {
-        return new Solicitud(id, legajo, tipo, descripcion, fecha, prioridad, urgente, EstadoSolicitud.PENDIENTE,
-                null);
+    public static Solicitud nueva(int id, String legajo, DetalleSolicitud detalle) {
+        return new Solicitud(id, legajo, detalle, EstadoSolicitud.PENDIENTE, null);
     }
 
     public void cambiarEstado(EstadoSolicitud nuevo) {
         if (!estado.puedePasarA(nuevo)) {
             throw new TransicionInvalidaException("no se puede pasar de " + estado + " a " + nuevo);
         }
-        if (urgente && nuevo == EstadoSolicitud.RECHAZADA) {
+        if (detalle.urgente() && nuevo == EstadoSolicitud.RECHAZADA) {
             throw new TransicionInvalidaException("una solicitud urgente no se puede rechazar");
         }
         estado = nuevo;
@@ -59,7 +48,7 @@ public class Solicitud {
 
     /** Asigna un responsable del área que corresponde. Una solicitud pendiente pasa a estar en proceso. */
     public void asignar(Responsable nuevoResponsable) {
-        if (nuevoResponsable.area() != tipo.area()) {
+        if (nuevoResponsable.area() != detalle.tipo().area()) {
             throw new AreaIncorrectaException();
         }
         if (estado.estaCerrado()) {
@@ -84,23 +73,23 @@ public class Solicitud {
     }
 
     public TipoSolicitud tipo() {
-        return tipo;
+        return detalle.tipo();
     }
 
     public String descripcion() {
-        return descripcion;
+        return detalle.descripcion();
     }
 
     public LocalDate fecha() {
-        return fecha;
+        return detalle.fecha();
     }
 
     public Prioridad prioridad() {
-        return prioridad;
+        return detalle.prioridad();
     }
 
     public boolean esUrgente() {
-        return urgente;
+        return detalle.urgente();
     }
 
     public EstadoSolicitud estado() {

@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
 class SolicitudTest {
 
     private static Solicitud nueva(TipoSolicitud tipo, boolean urgente) {
-        return Solicitud.nueva(1, "10001", tipo, "Descripcion", LocalDate.of(2026, 3, 3), Prioridad.MEDIA, urgente);
+        return Solicitud.nueva(1, "10001",
+                new DetalleSolicitud(tipo, "Descripcion", LocalDate.of(2026, 3, 3), Prioridad.MEDIA, urgente));
     }
 
     @Test

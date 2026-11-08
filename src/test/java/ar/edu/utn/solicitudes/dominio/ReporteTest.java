@@ -13,12 +13,12 @@ class ReporteTest {
     @DisplayName("Cuenta por estado, por prioridad, las urgentes y las abiertas sin responsable")
     void cuentaCadaCriterio() {
         // Arrange
-        Solicitud pendiente = Solicitud.nueva(1, "10001", TipoSolicitud.CONSTANCIA, "a", LocalDate.of(2026, 3, 1),
-                Prioridad.BAJA, false);
-        Solicitud urgente = Solicitud.nueva(2, "10002", TipoSolicitud.RECLAMO, "b", LocalDate.of(2026, 3, 2),
-                Prioridad.ALTA, true);
-        Solicitud resuelta = Solicitud.nueva(3, "10003", TipoSolicitud.EXAMEN, "c", LocalDate.of(2026, 3, 3),
-                Prioridad.ALTA, false);
+        Solicitud pendiente = Solicitud.nueva(1, "10001", new DetalleSolicitud(TipoSolicitud.CONSTANCIA, "a",
+                LocalDate.of(2026, 3, 1), Prioridad.BAJA, false));
+        Solicitud urgente = Solicitud.nueva(2, "10002", new DetalleSolicitud(TipoSolicitud.RECLAMO, "b",
+                LocalDate.of(2026, 3, 2), Prioridad.ALTA, true));
+        Solicitud resuelta = Solicitud.nueva(3, "10003", new DetalleSolicitud(TipoSolicitud.EXAMEN, "c",
+                LocalDate.of(2026, 3, 3), Prioridad.ALTA, false));
         resuelta.asignar(new Responsable("Martin Paz", Area.BEDELIA));
         resuelta.cambiarEstado(EstadoSolicitud.RESUELTA);
 
