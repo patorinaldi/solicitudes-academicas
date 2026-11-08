@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +96,8 @@ public class RepositorioCsv implements RepositorioSolicitudes {
     private String aLinea(Solicitud s) {
         Estudiante e = estudiantes.get(s.legajo());
         return String.join(";", String.valueOf(s.id()), s.legajo(), e.nombre(), e.email(), e.carrera(),
-                s.tipo().name(), s.descripcion(), s.fecha(), s.estado().name(), s.prioridad().name(),
+                s.tipo().name(), s.descripcion(), s.fecha().format(Solicitud.FORMATO_FECHA), s.estado().name(),
+                s.prioridad().name(),
                 s.responsable().orElse(""), String.valueOf(s.esUrgente()));
     }
 
@@ -111,7 +113,8 @@ public class RepositorioCsv implements RepositorioSolicitudes {
                 estudiantes.putIfAbsent(campos[LEGAJO], new Estudiante(campos[LEGAJO], campos[NOMBRE],
                         campos[EMAIL], campos[CARRERA]));
                 solicitudes.add(new Solicitud(Integer.parseInt(campos[ID]), campos[LEGAJO],
-                        TipoSolicitud.valueOf(campos[TIPO]), campos[DESCRIPCION], campos[FECHA],
+                        TipoSolicitud.valueOf(campos[TIPO]), campos[DESCRIPCION],
+                        LocalDate.parse(campos[FECHA], Solicitud.FORMATO_FECHA),
                         Prioridad.valueOf(campos[PRIORIDAD]), campos[URGENTE].equals("true"),
                         EstadoSolicitud.valueOf(campos[ESTADO]), campos[RESPONSABLE]));
             }

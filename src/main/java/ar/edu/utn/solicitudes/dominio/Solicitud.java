@@ -1,5 +1,8 @@
 package ar.edu.utn.solicitudes.dominio;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -10,17 +13,21 @@ import java.util.Optional;
  */
 public class Solicitud {
 
+    /** Formato en que se ingresa, se muestra y se guarda la fecha. STRICT rechaza el 31/02. */
+    public static final DateTimeFormatter FORMATO_FECHA =
+            DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
+
     private final int id;
     private final String legajo;
     private final TipoSolicitud tipo;
     private final String descripcion;
-    private final String fecha;
+    private final LocalDate fecha;
     private final Prioridad prioridad;
     private final boolean urgente;
     private EstadoSolicitud estado;
     private String responsable;
 
-    public Solicitud(int id, String legajo, TipoSolicitud tipo, String descripcion, String fecha,
+    public Solicitud(int id, String legajo, TipoSolicitud tipo, String descripcion, LocalDate fecha,
                      Prioridad prioridad, boolean urgente, EstadoSolicitud estado, String responsable) {
         this.id = id;
         this.legajo = Objects.requireNonNull(legajo);
@@ -34,7 +41,7 @@ public class Solicitud {
     }
 
     /** Una solicitud recién registrada: pendiente y sin responsable. */
-    public static Solicitud nueva(int id, String legajo, TipoSolicitud tipo, String descripcion, String fecha,
+    public static Solicitud nueva(int id, String legajo, TipoSolicitud tipo, String descripcion, LocalDate fecha,
                                   Prioridad prioridad, boolean urgente) {
         return new Solicitud(id, legajo, tipo, descripcion, fecha, prioridad, urgente, EstadoSolicitud.PENDIENTE,
                 null);
@@ -84,7 +91,7 @@ public class Solicitud {
         return descripcion;
     }
 
-    public String fecha() {
+    public LocalDate fecha() {
         return fecha;
     }
 

@@ -40,7 +40,7 @@ public class SolicitudService {
         String descripcion = datos.descripcion().trim();
         Prioridad prioridad = calculadoraPrioridad.calcular(tipo, descripcion, datos.urgente());
         Solicitud solicitud = Solicitud.nueva(repositorio.siguienteId(), estudiante.legajo(), tipo, descripcion,
-                datos.fecha().trim(), prioridad, datos.urgente());
+                ValidadorSolicitud.fecha(datos).orElseThrow(), prioridad, datos.urgente());
         repositorio.agregar(solicitud, estudiante);
         return solicitud;
     }

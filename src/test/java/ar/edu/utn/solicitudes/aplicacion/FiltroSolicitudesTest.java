@@ -6,13 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import ar.edu.utn.solicitudes.dominio.Prioridad;
 import ar.edu.utn.solicitudes.dominio.Solicitud;
 import ar.edu.utn.solicitudes.dominio.TipoSolicitud;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class FiltroSolicitudesTest {
 
     private final Solicitud examen = Solicitud.nueva(2, "10002", TipoSolicitud.EXAMEN, "Mesa especial",
-            "10/03/2026", Prioridad.ALTA, false);
+            LocalDate.of(2026, 3, 10), Prioridad.ALTA, false);
 
     @Test
     @DisplayName("Un filtro sin criterios admite todo")

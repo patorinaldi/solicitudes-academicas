@@ -2,6 +2,7 @@ package ar.edu.utn.solicitudes.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +13,11 @@ class ReporteTest {
     @DisplayName("Cuenta por estado, por prioridad, las urgentes y las abiertas sin responsable")
     void cuentaCadaCriterio() {
         // Arrange
-        Solicitud pendiente = Solicitud.nueva(1, "10001", TipoSolicitud.CONSTANCIA, "a", "01/03/2026",
+        Solicitud pendiente = Solicitud.nueva(1, "10001", TipoSolicitud.CONSTANCIA, "a", LocalDate.of(2026, 3, 1),
                 Prioridad.BAJA, false);
-        Solicitud urgente = Solicitud.nueva(2, "10002", TipoSolicitud.RECLAMO, "b", "02/03/2026",
+        Solicitud urgente = Solicitud.nueva(2, "10002", TipoSolicitud.RECLAMO, "b", LocalDate.of(2026, 3, 2),
                 Prioridad.ALTA, true);
-        Solicitud resuelta = Solicitud.nueva(3, "10003", TipoSolicitud.EXAMEN, "c", "03/03/2026",
+        Solicitud resuelta = Solicitud.nueva(3, "10003", TipoSolicitud.EXAMEN, "c", LocalDate.of(2026, 3, 3),
                 Prioridad.ALTA, false);
         resuelta.asignar(new Responsable("Martin Paz", Area.BEDELIA));
         resuelta.cambiarEstado(EstadoSolicitud.RESUELTA);
