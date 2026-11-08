@@ -1,6 +1,6 @@
 # ADR-003: Corregir los defectos después del refactoring, en commits separados
 
-**Estado:** Aceptado. **Commits:** `dd2c317` (D1) y `2f75da7` (D2).
+**Estado:** Aceptado. **Commits:** `c8ee571` (D1) y `9d684eb` (D2).
 
 ## Contexto
 El diagnóstico encontró dos defectos visibles: el sistema aceptaba fechas inexistentes (D1) y un

@@ -27,11 +27,11 @@ Severidad: **Bloqueante** (impide aprobar) o **Sugerencia** (mejora recomendada)
 
 | ID | Ubicación (`etapa-pruebas`) | Observación | Severidad | Acción | Resultado |
 |---|---|---|---|---|---|
-| CR-01 | `Solicitud` (constructor) y `Solicitud.nueva` | El constructor volvió a tener **9 parámetros** y `nueva`, 7: es el mismo smell (S3) que el refactoring resolvió en `registrar()`. lizard lo marca | Bloqueante | Introduce Parameter Object: record `DetalleSolicitud` | Corregido en `afc7d38`: 5 y 3 parámetros |
-| CR-02 | `ValidadorSolicitud.validar` | Complejidad ciclomática **12**, el único método por encima de 10 | Bloqueante (TAC-4) | Extract Method por campo | Corregido en `519f439`: CCN máximo del proyecto, 9 |
-| CR-03 | `TipoSolicitud.desde` y `EstadoSolicitud.desde` | El mismo bucle copiado en los dos enums. jscpd no lo detecta porque es corto, pero es duplicación (DRY) | Sugerencia | Extraer `TextoEnum.buscar()` | Corregido en `2ef8811` |
-| CR-04 | `SolicitudService.estudiante` | `orElseThrow()` sin mensaje: si falta el estudiante, el error no dice qué pasó | Sugerencia | Excepción con mensaje | Corregido en `f1b6075` |
-| CR-05 | `RepositorioCsv.actualizar` | No usa su parámetro, y no queda claro por qué | Sugerencia | Documentar la decisión (reescribe el archivo completo) | Corregido en `f1b6075` |
+| CR-01 | `Solicitud` (constructor) y `Solicitud.nueva` | El constructor volvió a tener **9 parámetros** y `nueva`, 7: es el mismo smell (S3) que el refactoring resolvió en `registrar()`. lizard lo marca | Bloqueante | Introduce Parameter Object: record `DetalleSolicitud` | Corregido en `0ee9c6d`: 5 y 3 parámetros |
+| CR-02 | `ValidadorSolicitud.validar` | Complejidad ciclomática **12**, el único método por encima de 10 | Bloqueante (TAC-4) | Extract Method por campo | Corregido en `271fdc3`: CCN máximo del proyecto, 9 |
+| CR-03 | `TipoSolicitud.desde` y `EstadoSolicitud.desde` | El mismo bucle copiado en los dos enums. jscpd no lo detecta porque es corto, pero es duplicación (DRY) | Sugerencia | Extraer `TextoEnum.buscar()` | Corregido en `c08826b` |
+| CR-04 | `SolicitudService.estudiante` | `orElseThrow()` sin mensaje: si falta el estudiante, el error no dice qué pasó | Sugerencia | Excepción con mensaje | Corregido en `0383d01` |
+| CR-05 | `RepositorioCsv.actualizar` | No usa su parámetro, y no queda claro por qué | Sugerencia | Documentar la decisión (reescribe el archivo completo) | Corregido en `0383d01` |
 | CR-06 | `README.md` | Sigue describiendo la versión inicial: no menciona la arquitectura, las pruebas ni las métricas | Bloqueante (TAC-8) | Actualizar README y agregar los ADR | Corregido en la etapa de documentación |
 | CR-07 | `MenuConsola.cambiarEstado` | Atrapa cualquier `SolicitudException` y muestra siempre el mismo mensaje, sin la causa | Sugerencia, **no aplicada** | Se mantiene a propósito: es el mensaje de la versión inicial y cambiarlo rompería el golden master. Queda como mejora futura | Pendiente, registrada en las conclusiones |
 
