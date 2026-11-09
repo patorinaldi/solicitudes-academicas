@@ -1,15 +1,21 @@
 Golden master (GoldenMasterTest) corrido sobre cada commit desde que existe.
 Cada fila: commit, mensaje, pruebas del golden master que pasan y total de pruebas del commit.
 
-1ea2d9e  test: prueba de caracterizacion (golden master) de la version inicial      golden master 2/2 | 2 de 2 pruebas en verde
-8b213c0  docs: diagnostico de deuda tecnica, code smells y defectos de la version i golden master 2/2 | 2 de 2 pruebas en verde
-665c4f3  refactor: Extract Method en GestorSolicitudes y Main                       golden master 2/2 | 2 de 2 pruebas en verde
-87817ed  refactor: Introduce Parameter Object (NuevaSolicitud y FiltroSolicitudes)  golden master 2/2 | 2 de 2 pruebas en verde
-77bdf6e  refactor: Replace Type Code with Enum y Move Method a los enums            golden master 2/2 | 2 de 2 pruebas en verde
-97855b1  refactor: Move Method del reporte, el filtro y la prioridad                golden master 2/2 | 2 de 2 pruebas en verde
-0bf67b3  refactor: Replace Error Code with Exception                                golden master 2/2 | 2 de 2 pruebas en verde
-c23b8bf  refactor: Encapsulate Field y Replace Subclass with Field (LSP)            golden master 2/2 | 2 de 2 pruebas en verde
-20e83af  refactor: Extract Class y Dependency Inversion; GestorSolicitudes desapare golden master 2/2 | 2 de 2 pruebas en verde
-dbd7e71  test: pruebas unitarias del dominio y del servicio (patron AAA)            golden master 2/2 | 34 de 34 pruebas en verde
-dd2c317  fix: la fecha se modela como LocalDate y se rechazan fechas inexistentes ( golden master 2/2 | 35 de 35 pruebas en verde
-2f75da7  fix: errores de persistencia visibles y descripcion sin el separador del C golden master 2/2 | 39 de 39 pruebas en verde
+adfccec  test: prueba de caracterizacion (golden master) de la version inicial      golden master 2/2 | 2 de 2 pruebas en verde
+4852cf4  docs: diagnostico de deuda tecnica, code smells y defectos de la version i golden master 2/2 | 2 de 2 pruebas en verde
+ad0d8ff  refactor: Extract Method en GestorSolicitudes y Main                       golden master 2/2 | 2 de 2 pruebas en verde
+e52dfd0  refactor: Introduce Parameter Object (NuevaSolicitud y FiltroSolicitudes)  golden master 2/2 | 2 de 2 pruebas en verde
+8650d9e  refactor: Replace Type Code with Enum y Move Method a los enums            golden master 2/2 | 2 de 2 pruebas en verde
+54ad5a3  refactor: Move Method del reporte, el filtro y la prioridad                golden master 2/2 | 2 de 2 pruebas en verde
+9ca0ae7  refactor: Replace Error Code with Exception                                golden master 2/2 | 2 de 2 pruebas en verde
+9a63827  refactor: Encapsulate Field y Replace Subclass with Field (LSP)            golden master 2/2 | 2 de 2 pruebas en verde
+78fc582  refactor: Extract Class y Dependency Inversion; GestorSolicitudes desapare golden master 2/2 | 2 de 2 pruebas en verde
+8f7aff9  test: pruebas unitarias del dominio y del servicio (patron AAA)            golden master 2/2 | 34 de 34 pruebas en verde
+c8ee571  fix: la fecha se modela como LocalDate y se rechazan fechas inexistentes ( golden master 2/2 | 35 de 35 pruebas en verde
+9d684eb  fix: errores de persistencia visibles y descripcion sin el separador del C golden master 2/2 | 39 de 39 pruebas en verde
+c70003d  test: evidencias antes/despues y plan de pruebas                          golden master 2/2 | 39 de 39 pruebas en verde
+0ee9c6d  review(CR-01): Introduce Parameter Object DetalleSolicitud                golden master 2/2 | 39 de 39 pruebas en verde
+271fdc3  review(CR-02): Extract Method por campo en ValidadorSolicitud             golden master 2/2 | 39 de 39 pruebas en verde
+c08826b  review(CR-03): una sola conversion de texto a enum                        golden master 2/2 | 39 de 39 pruebas en verde
+0383d01  review(CR-04, CR-05): mensaje del error de estudiante y documentacion de  golden master 2/2 | 39 de 39 pruebas en verde
+ffccc56  docs: README final, revision de codigo, checklist, ADR y uso de IA        golden master 2/2 | 39 de 39 pruebas en verde
